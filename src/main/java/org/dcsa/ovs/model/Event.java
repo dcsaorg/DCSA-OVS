@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dcsa.core.model.AuditBase;
 import org.dcsa.core.model.GetId;
+import org.dcsa.ovs.model.base.AbstractOperationsEvent;
 import org.dcsa.ovs.model.enums.EventClassifierCode;
 import org.dcsa.ovs.model.enums.EventType;
 import org.springframework.data.annotation.Id;
@@ -25,6 +26,7 @@ import java.util.UUID;
         visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TransportEvent.class, name="TRANSPORT"),
+        @JsonSubTypes.Type(value = AbstractOperationsEvent.class, name="OPERATIONS"),
         })
 public class Event extends AuditBase implements GetId<UUID> {
 
@@ -50,8 +52,5 @@ public class Event extends AuditBase implements GetId<UUID> {
     @Column("event_classifier_code")
     private EventClassifierCode eventClassifierCode;
 
-    @JsonProperty("eventTypeCode")
-    @Column("event_type_code")
-    private String eventTypeCode;
 
 }
