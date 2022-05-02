@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+    dcsa-ovs:
+        build:
+           .
+        ports:
+            - 9090:9090
+        environment:
+            - "SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-default}"
+            - "ROOT_LOG_LEVEL=${ROOT_LOG_LEVEL:-INFO}"
+            - "R2DBC_LOG_LEVEL=${R2DBC_LOG_LEVEL:-INFO}"
+            - "DCSA_LOG_LEVEL=${DCSA_LOG_LEVEL:-INFO}"
+        logging:
+            options:
+                max-file: '10'
+                max-size: 200k
+
+    dcsa-test-db:
+        container_name: dcsa_db
+        environment:
+            POSTGRES_PASSWORD: "change_this_password"
+        build:
+            DCSA-Information-Model/datamodel/
+        ports:
+            - 5432:5432
