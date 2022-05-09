@@ -11,7 +11,6 @@ services:
             - "SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-default}"
             - "SPRING_DATASOURCE_PASSWORD=9c072fe8-c59c-11ea-b8d1-7b6577e9f3f5"
             - "ROOT_LOG_LEVEL=${ROOT_LOG_LEVEL:-INFO}"
-            - "R2DBC_LOG_LEVEL=${R2DBC_LOG_LEVEL:-INFO}"
             - "DCSA_LOG_LEVEL=${DCSA_LOG_LEVEL:-INFO}"
         logging:
             options:

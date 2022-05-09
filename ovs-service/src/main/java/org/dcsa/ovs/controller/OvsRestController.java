@@ -18,7 +18,7 @@ import java.util.List;
 public class OvsRestController {
   private final ServiceScheduleService service;
 
-  @GetMapping(path = "/")
+  @GetMapping(path = "/service-schedules")
   public List<ServiceScheduleTO> findAll() {
     return service.findAll();
   }
