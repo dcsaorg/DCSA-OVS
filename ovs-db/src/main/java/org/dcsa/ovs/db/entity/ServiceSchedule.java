@@ -1,7 +1,6 @@
 package org.dcsa.ovs.db.entity;
 
 import lombok.Data;
-import lombok.val;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
