@@ -1,7 +1,10 @@
-name: DCSA-EBL MASTER CI
+name: DCSA-OVS MASTER CI
 
 on:
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
@@ -11,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        path: DCSA-EBL
+        path: DCSA-OVS
         submodules: recursive
 
     - name: Set up Java JDK
@@ -27,28 +30,47 @@ jobs:
         repositories: '[{ "id": "github", "name": "DCSA Backend repo", "url": "https://maven.pkg.github.com/dcsaorg/DCSA-Core", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }]'
         servers: '[{ "id": "github", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
 
-    - name: Build Electronic Bill of Lading API
-      run: cd DCSA-OVS && mvn package -DskipTests -X #Need to skip the tests as they depend on a running DB
+    - name: Build OVS
+      run: cd DCSA-OVS && mvn clean -U -B package -Ddcsa.artifacttype=-SNAPSHOT
 
-    - name: Run the OVS microservice plus database
-      run: cd DCSA-OVS && docker-compose -f docker-compose.yml up -d -V
+    - name: Build and run the microservices
+      run: cd DCSA-OVS && docker-compose -f docker-compose.yml up -d -V --build
 
-    - name: Checkout dcsaorg/DCSA-API-Validator
-      uses: actions/checkout@v2
-      with:
-        repository: dcsaorg/DCSA-API-Validator
-        ref: master
-        token: ${{ secrets.REPO_ACCESS_PAT }}
-        path: DCSA-API-Validator
+    - name: Fetch Backend Status
+      run: |
+        sleep 10
+        status=$(curl -s http://localhost:9090/v3/actuator/health | jq -r '.status')
+        retries=12
 
-    - name: "Check database is up"
-      run: echo "SELECT 1;" | docker exec -i -u postgres dcsa_db psql -d dcsa_openapi -f - 2>/dev/null || sleep 5
+        while [[ "$status" != "UP" ]] && [[ $retries -gt 0 ]]; do
+          echo "Status is '$status' - waiting 5 secs ($retries retries left)"
+          sleep 5
+          retries=$((retries - 1))
+          status=$(curl -s http://localhost:9090/v3/actuator/health | jq -r '.status')
+        done
 
-    - name: "Dump database logs"
-      run: docker logs dcsa_db
+        echo "Final status is '$status'"
+        if [[ "$status" != "UP" ]]; then
+          curl -v http://localhost:9090/v3/actuator/health
+          docker ps
+          docker logs dcsa-ovs_dcsa-ovs_1
+        fi
 
-    - name: "Verify database is running"
-      run: echo "SELECT 1;" | docker exec -i -u postgres dcsa_db psql -d dcsa_openapi -f -
+        echo "::set-output name=STATUS::$status"
+      id: healthcheck
 
-    - name: Load DCSA OVS test data
-      run: cat DCSA-OVS/DCSA-Information-Model/datamodel/testdata.d/*.sql | docker exec -i -u postgres dcsa_db psql -d dcsa_openapi -f -
+    - name: Confirm microservice status
+      if: ${{ steps.healthcheck.outputs.STATUS == 'UP' }}
+      run: |
+        echo "The DCSA-OVS service is UP."
+
+    #- name: Confirm microservice status
+    #  if: ${{ steps.healthcheck.outputs.STATUS != 'UP' }}
+    #  uses: actions/github-script@v3
+    #  with:
+    #    script: |
+    #      core.setFailed('The DCSA-OVS service is down.')
+
+    - name: Run Integration Tests
+      run: |
+        cd DCSA-OVS && java -jar ovs-integration-tests/target/dcsa-ovs-integration-tests-with-dependencies.jar

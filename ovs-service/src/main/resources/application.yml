@@ -21,6 +21,7 @@ spring:
         jwt:
           issuer-uri: https://dcsa.eu.auth0.com/
   profiles:
+    active: nosecurity
     group:
       local: nosecurity
       dev: nosecurity
