@@ -1,0 +1,62 @@
+
+dcsa:
+  specification:
+    version: 3.0.0
+
+spring:
+  application:
+    name: DCSA-OVS
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${db_hostname}/dcsa_openapi
+    username: dcsa_db_owner
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+      hibernate.ddl-auto: validate
+    hikari:
+        schema: dcsa_im_v3_0
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dcsa.eu.auth0.com/
+  profiles:
+    active: nosecurity
+    group:
+      local: nosecurity
+      dev: nosecurity
+      test: nosecurity
+      prod: default
+
+server:
+  port: 9090
+  servlet.context-path: /v3
+  error:
+    include-binding-errors: on_param
+    include-message: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+
+logging:
+  level:
+    root: ${ROOT_LOG_LEVEL:INFO}
+    org:
+      springframework: ${SPRING_LOG_LEVEL:INFO}
+      dcsa: ${DCSA_LOG_LEVEL:INFO}
+
+---
+# A profile for disabling security
+spring:
+  config:
+    activate:
+      on-profile: nosecurity
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration

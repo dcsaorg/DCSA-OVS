@@ -10,23 +10,18 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<artifactId>dcsa_ovs</artifactId>
+	<groupId>org.dcsa.ovs</groupId>
+	<artifactId>dcsa-ovs-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<name>DCSA-OVS</name>
 	<description>Operational Vessel Schedules</description>
 
 	<properties>
-		<!-- Define DCSA-Event-Core version -->
-		<dcsa.events.version>0.0.61</dcsa.events.version>
-		<dcsa.event.tag/>
-		<dcsa.artifacttype>-SNAPSHOT</dcsa.artifacttype>
-		<event-core.version>${dcsa.events.version}${dcsa.event.tag}${dcsa.artifacttype}</event-core.version>
-		<!-- End: Define DCSA-Event-Core version -->
-
 		<!-- Re-Define DCSA-Core version -->
 		<dcsa.core.tag/>
 		<dcsa.core.version>0.8.33</dcsa.core.version>
+		<dcsa.artifacttype>-SNAPSHOT</dcsa.artifacttype>
 		<core.version>${dcsa.core.version}${dcsa.core.tag}${dcsa.artifacttype}</core.version>
 		<!-- End: Re-Define DCSA-Core version -->
 
@@ -40,49 +35,37 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dcsa</groupId>
-			<artifactId>dcsa_event_core</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
-		<!-- delete me later -->
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-		</dependency>
-    <!-- test dependencies -->
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>json-path</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured-all</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>json-schema-validator</artifactId>
-      <scope>test</scope>
-    </dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-				</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+	<modules>
+		<module>ovs-transfer-obj</module>
+		<module>ovs-persistence</module>
+		<module>ovs-service</module>
+		<module>ovs-integration-tests</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency><!-- TODO: Move this to super-pom -->
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.dcsa.ovs</groupId>
+				<artifactId>dcsa-ovs-transfer-obj</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.dcsa.ovs</groupId>
+				<artifactId>dcsa-ovs-persistence</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<repositories>
 		<repository>
