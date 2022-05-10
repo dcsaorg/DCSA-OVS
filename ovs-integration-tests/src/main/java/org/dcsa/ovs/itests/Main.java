@@ -34,7 +34,7 @@ public class Main {
     var testplan = launcher.discover(
       LauncherDiscoveryRequestBuilder.request()
         .selectors(DiscoverySelectors.selectPackage(Main.class.getPackageName()))
-        .filters(ClassNameFilter.includeClassNamePatterns(".*Test"))
+        .filters(ClassNameFilter.includeClassNamePatterns(".*(Test|IT)"))
         .build()
     );
     launcher.registerTestExecutionListeners(listener);
