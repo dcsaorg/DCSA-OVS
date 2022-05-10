@@ -9,7 +9,7 @@
 
 	<name>DCSA OVS - Database Persistence</name>
 	<groupId>org.dcsa.ovs</groupId>
-	<artifactId>dcsa-ovs-db</artifactId>
+	<artifactId>dcsa-ovs-persistence</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 

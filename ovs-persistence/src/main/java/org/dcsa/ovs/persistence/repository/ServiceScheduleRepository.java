@@ -1,6 +1,6 @@
-package org.dcsa.ovs.db.repository;
+package org.dcsa.ovs.persistence.repository;
 
-import org.dcsa.ovs.db.entity.ServiceSchedule;
+import org.dcsa.ovs.persistence.entity.ServiceSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

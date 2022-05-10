@@ -1,16 +1,15 @@
 package org.dcsa.ovs.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dcsa.ovs.db.entity.ServiceSchedule;
-import org.dcsa.ovs.db.repository.ServiceScheduleRepository;
+import org.dcsa.ovs.persistence.repository.ServiceScheduleRepository;
 import org.dcsa.ovs.mapping.ListMapper;
 import org.dcsa.ovs.mapping.ServiceScheduleMapper;
 import org.dcsa.ovs.transferobjects.ServiceScheduleTO;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class ServiceScheduleService {
   private final ServiceScheduleRepository repository;

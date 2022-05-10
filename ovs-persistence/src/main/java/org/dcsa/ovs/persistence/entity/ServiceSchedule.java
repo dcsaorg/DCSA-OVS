@@ -1,4 +1,4 @@
-package org.dcsa.ovs.db.entity;
+package org.dcsa.ovs.persistence.entity;
 
 import lombok.Data;
 

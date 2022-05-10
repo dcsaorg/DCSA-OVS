@@ -1,7 +1,6 @@
 package org.dcsa.ovs.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.dcsa.ovs.db.entity.ServiceSchedule;
 import org.dcsa.ovs.service.ServiceScheduleService;
 import org.dcsa.ovs.transferobjects.ServiceScheduleTO;
 import org.springframework.validation.annotation.Validated;
