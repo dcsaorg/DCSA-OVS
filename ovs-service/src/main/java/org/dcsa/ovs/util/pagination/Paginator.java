@@ -9,8 +9,13 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Helper class for doing "cursor" based pagination using spring-data.
@@ -30,8 +35,8 @@ public class Paginator {
       return cursorFromString(cursor);
     }
 
-    String limit = request.getParameter("limit");
     int pageSize = cursorDefaults.getPageSize();
+    String limit = request.getParameter("limit");
     if (limit != null) {
       pageSize = Integer.parseInt(limit);
     }
@@ -44,33 +49,79 @@ public class Paginator {
    *
    * @param totalPages total pages in a result (see also org.springframework.data.domain.Page)
    */
-  public void setPageHeaders(HttpServletRequest request, HttpServletResponse response, Cursor currentCursor, int totalPages) {
+  public void setPageHeaders(
+    HttpServletRequest request,
+    HttpServletResponse response,
+    Cursor currentCursor,
+    int totalPages,
+    String... allowedParameters
+  ) {
+    Set<String> allowedParametersSet = allowedParameters.length == 0 ? null : Arrays.stream(allowedParameters).collect(Collectors.toSet());
+    setPageHeaders(request, response, currentCursor, totalPages, allowedParametersSet);
+  }
+
+  /**
+   * Sets DCSA pagination headers.
+   *
+   * @param totalPages total pages in a result (see also org.springframework.data.domain.Page)
+   */
+  public void setPageHeaders(
+    HttpServletRequest request,
+    HttpServletResponse response,
+    Cursor currentCursor,
+    int totalPages,
+    Set<String> allowedParameters
+  ) {
     String basePath = new StringBuilder()
       .append(request.getScheme()).append("://")
       .append(request.getServerName()).append(":").append(request.getServerPort())
       .append(request.getRequestURI()).append("?cursor=")
       .toString();
+    String parameters = getRequestParameters(request, allowedParameters);
 
-    response.setHeader("Current-Page", basePath + cursorToString(currentCursor));
-    response.setHeader("First-Page", basePath + cursorToString(currentCursor.withPage(0)));
+    response.setHeader("Current-Page", basePath + cursorToString(currentCursor) + parameters);
+    response.setHeader("First-Page", basePath + cursorToString(currentCursor.withPage(0)) + parameters);
 
     if (currentCursor.getPage() > 0) {
-      response.setHeader("Previous-Page", basePath + cursorToString(currentCursor.withRelativePage(-1)));
+      response.setHeader("Previous-Page", basePath + cursorToString(currentCursor.withRelativePage(-1)) + parameters);
     }
     if (totalPages > currentCursor.getPage() + 1) {
-      response.setHeader("Next-Page", basePath + cursorToString(currentCursor.withRelativePage(1)));
+      response.setHeader("Next-Page", basePath + cursorToString(currentCursor.withRelativePage(1)) + parameters);
     }
   }
 
   @SneakyThrows
   @VisibleForTesting
   String cursorToString(Cursor cursor) {
-    return new String(Base64.getEncoder().encode(objectMapper.writeValueAsBytes(cursor)), StandardCharsets.ISO_8859_1);
+    return urlencode(new String(Base64.getEncoder().encode(objectMapper.writeValueAsBytes(cursor)), StandardCharsets.ISO_8859_1));
   }
 
   @SneakyThrows
   @VisibleForTesting
   Cursor cursorFromString(String cursor) {
     return objectMapper.readValue(Base64.getDecoder().decode(cursor.getBytes(StandardCharsets.ISO_8859_1)), Cursor.class);
+  }
+
+  private String getRequestParameters(HttpServletRequest request, Set<String> allowedParameters) {
+    StringBuilder parameters = new StringBuilder();
+
+    request.getParameterMap().entrySet().forEach(entry -> {
+      String key = entry.getKey();
+      if (!"limit".equals(key) && (allowedParameters == null || allowedParameters.contains(key))) {
+        String[] values = entry.getValue();
+        String firstValue = values != null && values.length > 0 ? values[0] : "";
+        parameters.append("&").append(urlencode(key)).append("=").append(urlencode(firstValue));
+      } else {
+        if (!"limit".equals(key)) {
+          log.warn("Ignored request parameter '{}'", key);
+        }
+      }
+    });
+
+    return parameters.toString();
+  }
+
+  private String urlencode(String src) {
+    return URLEncoder.encode(src, Charset.defaultCharset());
   }
 }
