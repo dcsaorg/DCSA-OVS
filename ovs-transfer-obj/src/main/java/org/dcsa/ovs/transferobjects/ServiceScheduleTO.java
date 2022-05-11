@@ -1,10 +1,13 @@
 package org.dcsa.ovs.transferobjects;
 
-import lombok.Value;
+import lombok.Builder;
 
-import java.util.UUID;
+import java.util.List;
 
-@Value
-public class ServiceScheduleTO {
-  private UUID id;
-}
+@Builder
+public record ServiceScheduleTO (
+  String carrierServiceName,
+  String carrierServiceCode,
+  String universalServiceReference,
+  List<VesselTO> vessels
+){}
