@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class PaginatorTest {
-  private HttpServletRequest request = mock(HttpServletRequest.class);
-  private HttpServletResponse response = mock(HttpServletResponse.class);
-  private CursorDefaults cursorDefaults = new CursorDefaults(10, Sort.Direction.ASC, "sort_field");
+  private final HttpServletRequest request = mock(HttpServletRequest.class);
+  private final HttpServletResponse response = mock(HttpServletResponse.class);
+  private final CursorDefaults cursorDefaults = new CursorDefaults(10, Sort.Direction.ASC, "sort_field");
 
-  private Paginator paginator = new Paginator(new JacksonConfiguration().defaultObjectMapper());
+  private final Paginator paginator = new Paginator(new JacksonConfiguration().defaultObjectMapper());
 
   @BeforeEach
   public void resetMocks() {
@@ -64,8 +64,7 @@ public class PaginatorTest {
     // Verify
     assertEquals(0, cursor.getPage());
     assertEquals(33, cursor.getPageSize());
-    assertEquals(cursorDefaults.getDirection(), cursor.getDirection());
-    assertEquals(cursorDefaults.getSortFields(), cursor.getSortFields());
+    assertEquals(cursorDefaults.getSortBy(), cursor.getSortBy());
   }
 
   @Test
@@ -76,8 +75,7 @@ public class PaginatorTest {
     // Verify
     assertEquals(0, cursor.getPage());
     assertEquals(cursorDefaults.getPageSize(), cursor.getPageSize());
-    assertEquals(cursorDefaults.getDirection(), cursor.getDirection());
-    assertEquals(cursorDefaults.getSortFields(), cursor.getSortFields());
+    assertEquals(cursorDefaults.getSortBy(), cursor.getSortBy());
   }
 
   @Test

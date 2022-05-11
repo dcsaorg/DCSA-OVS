@@ -41,7 +41,7 @@ public class Paginator {
       pageSize = Integer.parseInt(limit);
     }
 
-    return new Cursor(0, pageSize, cursorDefaults.getDirection(), cursorDefaults.getSortFields());
+    return new Cursor(0, pageSize, cursorDefaults.getSortBy());
   }
 
   /**
@@ -72,11 +72,9 @@ public class Paginator {
     int totalPages,
     Set<String> allowedParameters
   ) {
-    String basePath = new StringBuilder()
-      .append(request.getScheme()).append("://")
-      .append(request.getServerName()).append(":").append(request.getServerPort())
-      .append(request.getRequestURI()).append("?cursor=")
-      .toString();
+    String basePath = request.getScheme() + "://" +
+      request.getServerName() + ":" + request.getServerPort() +
+      request.getRequestURI() + "?cursor=";
     String parameters = getRequestParameters(request, allowedParameters);
 
     response.setHeader("Current-Page", basePath + cursorToString(currentCursor) + parameters);
@@ -93,24 +91,22 @@ public class Paginator {
   @SneakyThrows
   @VisibleForTesting
   String cursorToString(Cursor cursor) {
-    return urlencode(new String(Base64.getEncoder().encode(objectMapper.writeValueAsBytes(cursor)), StandardCharsets.ISO_8859_1));
+    return urlEncode(base64Encode(objectMapper.writeValueAsBytes(cursor)));
   }
 
   @SneakyThrows
   @VisibleForTesting
   Cursor cursorFromString(String cursor) {
-    return objectMapper.readValue(Base64.getDecoder().decode(cursor.getBytes(StandardCharsets.ISO_8859_1)), Cursor.class);
+    return objectMapper.readValue(base64Decode(cursor), Cursor.class);
   }
 
   private String getRequestParameters(HttpServletRequest request, Set<String> allowedParameters) {
     StringBuilder parameters = new StringBuilder();
 
-    request.getParameterMap().entrySet().forEach(entry -> {
-      String key = entry.getKey();
+    request.getParameterMap().forEach((key, values) -> {
       if (!"limit".equals(key) && (allowedParameters == null || allowedParameters.contains(key))) {
-        String[] values = entry.getValue();
-        String firstValue = values != null && values.length > 0 ? values[0] : "";
-        parameters.append("&").append(urlencode(key)).append("=").append(urlencode(firstValue));
+        String firstValue = (values != null && values.length > 0) ? values[0] : "";
+        parameters.append("&").append(urlEncode(key)).append("=").append(urlEncode(firstValue));
       } else {
         if (!"limit".equals(key)) {
           log.warn("Ignored request parameter '{}'", key);
@@ -121,7 +117,15 @@ public class Paginator {
     return parameters.toString();
   }
 
-  private String urlencode(String src) {
+  private String base64Encode(byte[] src) {
+    return new String(Base64.getEncoder().encode(src), StandardCharsets.ISO_8859_1);
+  }
+
+  private byte[] base64Decode(String src) {
+    return Base64.getDecoder().decode(src.getBytes(StandardCharsets.ISO_8859_1));
+  }
+
+  private String urlEncode(String src) {
     return URLEncoder.encode(src, Charset.defaultCharset());
   }
 }

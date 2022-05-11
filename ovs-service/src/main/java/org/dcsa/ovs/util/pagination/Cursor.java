@@ -1,25 +1,37 @@
 package org.dcsa.ovs.util.pagination;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A cursor implementation that maps to how spring data does paging.
  */
 @Value
+@RequiredArgsConstructor(onConstructor_={@JsonCreator})
 public class Cursor {
+  public record SortBy(Sort.Direction direction, String field) {}
+
   private final int page;
   private final int pageSize;
-  private final Sort.Direction direction;
-  private final String[] sortFields;
+  private final List<SortBy> sortBy;
 
-  public Cursor(int page, int pageSize, Sort.Direction direction, String... sortFields) {
-    this.page = page;
-    this.pageSize = pageSize;
-    this.direction = direction;
-    this.sortFields = sortFields;
+  public Cursor(int page, int pageSize, SortBy... sortBy) {
+    this(page, pageSize, Arrays.asList(sortBy));
+  }
+
+  /**
+   * Constructor to use the same direction on all fields.
+   */
+  public Cursor(int page, int pageSize, Sort.Direction direction, String... fields) {
+    this(page, pageSize, Arrays.stream(fields).map(field -> new SortBy(direction, field)).collect(Collectors.toList()));
   }
 
   /**
@@ -27,7 +39,11 @@ public class Cursor {
    */
   @JsonIgnore
   public PageRequest toPageRequest() {
-    return PageRequest.of(page, pageSize, Sort.by(direction, sortFields));
+    return PageRequest.of(
+      page,
+      pageSize,
+      Sort.by(sortBy.stream().map(sb -> new Sort.Order(sb.direction, sb.field)).collect(Collectors.toList()))
+    );
   }
 
   /**
@@ -35,7 +51,7 @@ public class Cursor {
    */
   @JsonIgnore
   public Cursor withPage(int page) {
-    return page == this.page ? this : new Cursor(page, pageSize, direction, sortFields);
+    return page == this.page ? this : new Cursor(page, pageSize, sortBy);
   }
 
   /**
@@ -43,6 +59,6 @@ public class Cursor {
    */
   @JsonIgnore
   public Cursor withRelativePage(int offset) {
-    return new Cursor(page + offset, pageSize, direction, sortFields);
+    return new Cursor(page + offset, pageSize, sortBy);
   }
 }
