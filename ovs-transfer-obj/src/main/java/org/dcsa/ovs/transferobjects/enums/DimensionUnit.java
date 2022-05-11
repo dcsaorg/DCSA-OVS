@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum DimensionUnit {
   MTR("Meter"),
-  FOT("Foor");
+  FOT("Foot");
 
   private final String name;
 }
