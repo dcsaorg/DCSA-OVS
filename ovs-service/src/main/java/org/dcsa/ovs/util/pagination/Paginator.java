@@ -118,11 +118,11 @@ public class Paginator {
   }
 
   private String base64Encode(byte[] src) {
-    return new String(Base64.getEncoder().encode(src), StandardCharsets.ISO_8859_1);
+    return new String(Base64.getEncoder().encode(src), StandardCharsets.US_ASCII);
   }
 
   private byte[] base64Decode(String src) {
-    return Base64.getDecoder().decode(src.getBytes(StandardCharsets.ISO_8859_1));
+    return Base64.getDecoder().decode(src.getBytes(StandardCharsets.US_ASCII));
   }
 
   private String urlEncode(String src) {
