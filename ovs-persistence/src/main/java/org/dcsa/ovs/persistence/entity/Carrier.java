@@ -1,0 +1,37 @@
+package org.dcsa.ovs.persistence.entity;
+
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.UUID;
+
+@Data
+@Entity
+@Table(name = "carrier")
+public class Carrier {
+  @Id
+  @GeneratedValue
+  @Column(name = "id", nullable = false)
+  private UUID id;
+
+  @Column(name = "carrier_name", length = 100)
+  private String name;
+
+  @Column(name = "smdg_code", length = 3)
+  private String smdgCode;
+
+  @Column(name = "nmfta_code", length = 4)
+  private String nmftaCode;
+}
+/*
+CREATE TABLE dcsa_im_v3_0.carrier (
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+    carrier_name varchar(100),
+    smdg_code varchar(3) NULL,
+    nmfta_code varchar(4) NULL
+);
+ */

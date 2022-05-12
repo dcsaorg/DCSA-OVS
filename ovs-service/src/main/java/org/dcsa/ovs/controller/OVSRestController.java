@@ -1,7 +1,7 @@
 package org.dcsa.ovs.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.dcsa.ovs.transferobjects.ServiceScheduleTO;
+import org.dcsa.ovs.transferobjects.VesselScheduleTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +22,7 @@ public class OVSRestController {
 
   @GetMapping(path = "/service-schedules")
   @ResponseStatus(HttpStatus.OK)
-  public List<ServiceScheduleTO> findAll(
+  public List<VesselScheduleTO> findAll(
       @Size(max = 5) @RequestParam(required = false) String carrierServiceCode,
       @Size(max = 5) @RequestParam(required = false) String universalServiceReference,
       // TODO: use the vesselIMONumber validator from core
