@@ -1,6 +1,11 @@
 package org.dcsa.ovs.persistence.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +19,10 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter(AccessLevel.PRIVATE)
 @Entity
 @Table(name = "vessel_schedule")
 public class VesselSchedule {
