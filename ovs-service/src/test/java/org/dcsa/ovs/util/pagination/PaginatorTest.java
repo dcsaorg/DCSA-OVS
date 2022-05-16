@@ -11,8 +11,6 @@ import org.springframework.data.domain.Sort;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

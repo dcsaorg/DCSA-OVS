@@ -4,14 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.VisibleForTesting;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Set;
@@ -89,13 +87,11 @@ public class Paginator {
   }
 
   @SneakyThrows
-  @VisibleForTesting
   String cursorToString(Cursor cursor) {
     return Base64.getUrlEncoder().encodeToString(objectMapper.writeValueAsBytes(cursor));
   }
 
   @SneakyThrows
-  @VisibleForTesting
   Cursor cursorFromString(String cursor) {
     return objectMapper.readValue(Base64.getUrlDecoder().decode(cursor), Cursor.class);
   }
