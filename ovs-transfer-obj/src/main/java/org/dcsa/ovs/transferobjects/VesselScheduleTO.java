@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record ServiceScheduleTO (
+public record VesselScheduleTO (
   String carrierServiceName,
   String carrierServiceCode,
   String universalServiceReference,
