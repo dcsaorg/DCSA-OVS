@@ -35,7 +35,7 @@ public class PaginatorTest {
     Cursor original = new Cursor(2, 20, Sort.Direction.ASC, "created_timestamp");
 
     String serialized = paginator.cursorToString(original);
-    Cursor deserialized = paginator.cursorFromString(urldecode(serialized));
+    Cursor deserialized = paginator.cursorFromString(serialized);
 
     assertEquals(original, deserialized);
   }
@@ -44,7 +44,7 @@ public class PaginatorTest {
   public void testParseRequest_WithCursor() {
     // Setup
     Cursor original = new Cursor(2, 20, Sort.Direction.ASC, "created_timestamp");
-    when(request.getParameter("cursor")).thenReturn(urldecode(paginator.cursorToString(original)));
+    when(request.getParameter("cursor")).thenReturn(paginator.cursorToString(original));
 
     // Execute
     Cursor cursor = paginator.parseRequest(request, cursorDefaults);
@@ -193,10 +193,6 @@ public class PaginatorTest {
     verify(response).setHeader("First-Page", "http://localhost:9090/vx/myService?cursor=" + paginator.cursorToString(cursor.withPage(0)) + "&carrierBookingReference=cbr-12424534");
     verify(response).setHeader("Next-Page", "http://localhost:9090/vx/myService?cursor=" + paginator.cursorToString(cursor.withPage(2)) + "&carrierBookingReference=cbr-12424534");
     verify(response).setHeader("Previous-Page", "http://localhost:9090/vx/myService?cursor=" + paginator.cursorToString(cursor.withPage(0)) + "&carrierBookingReference=cbr-12424534");
-  }
-
-  private String urldecode(String src) {
-    return URLDecoder.decode(src, Charset.defaultCharset());
   }
 
   /**

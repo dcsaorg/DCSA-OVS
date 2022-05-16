@@ -91,13 +91,13 @@ public class Paginator {
   @SneakyThrows
   @VisibleForTesting
   String cursorToString(Cursor cursor) {
-    return urlEncode(base64Encode(objectMapper.writeValueAsBytes(cursor)));
+    return Base64.getUrlEncoder().encodeToString(objectMapper.writeValueAsBytes(cursor));
   }
 
   @SneakyThrows
   @VisibleForTesting
   Cursor cursorFromString(String cursor) {
-    return objectMapper.readValue(base64Decode(cursor), Cursor.class);
+    return objectMapper.readValue(Base64.getUrlDecoder().decode(cursor), Cursor.class);
   }
 
   private String getRequestParameters(HttpServletRequest request, Set<String> allowedParameters) {
@@ -115,14 +115,6 @@ public class Paginator {
     });
 
     return parameters.toString();
-  }
-
-  private String base64Encode(byte[] src) {
-    return new String(Base64.getEncoder().encode(src), StandardCharsets.US_ASCII);
-  }
-
-  private byte[] base64Decode(String src) {
-    return Base64.getDecoder().decode(src.getBytes(StandardCharsets.US_ASCII));
   }
 
   private String urlEncode(String src) {
