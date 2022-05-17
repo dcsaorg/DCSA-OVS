@@ -1,50 +1,47 @@
-# DCSA OVS
+DCSA OVS (Parent)
+================================================
 
 Code standard
 -------------------------------------
-We use [Google Java Style](https://google.github.io/styleguide/javaguide.html), when using
-IntelliJ it is recommended to download and activate the
+We use [Google Java Style](https://google.github.io/styleguide/javaguide.html).
+When using IntelliJ it is recommended to download and activate the
 [google-java-format plugin](https://github.com/google/google-java-format).
+
+
+Building and running using docker-compose
+-----------------------------------------
+Build and run with
+```
+mvn -U clean package
+docker-compose up -d -V --build
+```
+(the database is automatically included when running with docker)
 
 
 Building and running manually/locally
 -------------------------------------
 
-Initialize your local postgresql database as described in datamodel/README.md, then
+Initialize your local postgresql database as described in DCSA-Information-Model/datamodel/README.md,
+then build and run with
 ```
-export db_hostname=localhost
-export DCSA_Version=0.7.4 #or whatever version is the right one
-```
-If running without auth0, disable it in src/main/resources/application.yaml
-
-Then build and run with
-```
-mvn install:install-file -Dfile=../DCSA-Core/target/dcsa_core-$DCSA_Version.jar -DgroupId=org.dcsa -DartifactId=dcsa_core -Dversion=local-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
-mvn spring-boot:run -Ddcsa.version=local-SNAPSHOT
-```
-or using docker-compose
-```
-mvn package -Ddcsa.version=local-SNAPSHOT
-docker-compose up -d -V --build
+mvn -U clean package
+mvn -pl ovs-service -am spring-boot:run
 ```
 
-Building and running using docker-compose
+
+Running from inside an IDE
 -----------------------------------------
-To build using DCSA-core from GitHub packages
+Initialize your local postgresql database as described in datamodel/README.md, make sure you
+modify the run environment for the ```Application``` class so it includes the following environment
+variable
 ```
-mvn package
-docker-compose up -d -V --build
+SPRING_PROFILES_ACTIVE=dev
 ```
+Then just start the ```Application``` class.
+
 
 Branching and versioning
 ------------------------
-This repository has the following branching and versioning policy:
-- The *master* branch always contains the *latest* stable major version.
-- Active development on the next major version is performed in the *dev* branch
-- Once a new major version is stable the following is done:
-  - the now old version is tagged with the version
-  - the new version is merged into master
 
-For example, if the latest stable version is 1.x.x the master branch will contain this 1.x.x version. Active development on 2.x.x is being done
-on the *dev* branch. When version 2.x.x is released master is tagged with version 1.x.x and the *dev* branch is merged into master
-the result is a tag-1.x.x and master containing the 2.x.x version.
+The branching and devopment model is described
+[here](https://dcsa.atlassian.net/wiki/spaces/DDT/pages/71204878/Development+flow+and+CI).
