@@ -1,13 +1,19 @@
 package org.dcsa.ovs.controller;
 
+import org.dcsa.ovs.service.VesselScheduleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -19,9 +25,12 @@ class OVSRestControllerTest {
 
   @Autowired MockMvc mockMvc;
 
+  @MockBean VesselScheduleService vesselScheduleService;
+
   @Test
   @DisplayName("GET service scheduler should return 200 for given basic valid call")
   void testGetServiceSchedulerReturns200ForGivenBasicCall() throws Exception {
+    when(vesselScheduleService.findAll(any())).thenReturn(Collections.emptyList());
     this.mockMvc
         .perform(get("/service-schedules").accept(MediaType.APPLICATION_JSON_VALUE))
         .andDo(print())
