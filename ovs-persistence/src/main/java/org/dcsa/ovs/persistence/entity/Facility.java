@@ -23,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Setter(AccessLevel.PRIVATE)
 @Entity
-@Table(name = "carrier")
+@Table(name = "facility")
 public class Facility {
   @Id
   @GeneratedValue

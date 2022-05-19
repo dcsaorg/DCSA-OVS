@@ -1,13 +1,9 @@
 package org.dcsa.ovs.persistence.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -39,6 +35,13 @@ public class Service {
 
   @Column(name = "universal_service_reference", length = 8)
   private String universalServiceReference;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinTable(
+      name = "vessel_schedule",
+      joinColumns = @JoinColumn(name = "service_id"),
+      inverseJoinColumns = @JoinColumn(name = "vessel_id"))
+  List<Vessel> vessels;
 }
 /*
 CREATE TABLE dcsa_im_v3_0.service (

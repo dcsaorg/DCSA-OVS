@@ -1,20 +1,8 @@
 package org.dcsa.ovs.persistence.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -31,13 +19,11 @@ public class VesselSchedule {
   @Column(name = "id", nullable = false)
   private UUID id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "vessel_id")
-  private Vessel vessel;
+  @Column(name = "vessel_id")
+  private UUID vessel;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "service_id")
-  private Service service;
+  @Column(name = "service_id")
+  private UUID service;
 
   @Column(name = "created_date_time", nullable = false)
   private OffsetDateTime createdDateTime;

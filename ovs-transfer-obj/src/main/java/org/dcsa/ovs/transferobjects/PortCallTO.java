@@ -5,7 +5,6 @@ import org.dcsa.ovs.transferobjects.enums.PortCallStatusCode;
 
 import java.util.List;
 
-@Builder
 public record PortCallTO(
   String transportCallReference,
   String importVoyageNumber,
@@ -16,4 +15,6 @@ public record PortCallTO(
   PortCallStatusCode portCallStatusCode,
   List<TimestampTO> timestamps
 ) {
+  @Builder // workaround for intellij issue
+  public PortCallTO {}
 }

@@ -5,7 +5,6 @@ import org.dcsa.ovs.transferobjects.enums.DimensionUnit;
 
 import java.util.List;
 
-@Builder
 public record VesselTO(
   String vesselOperatorCarrierSMDGCode,
   String vesselIMONumber,
@@ -16,4 +15,7 @@ public record VesselTO(
   DimensionUnit dimensionUnit,
   Boolean isDummyVessel,
   List<PortCallTO> portCalls
-){}
+){
+  @Builder // workaround for intellij issue
+  public VesselTO {}
+}

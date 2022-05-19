@@ -1,6 +1,7 @@
 package org.dcsa.ovs.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.dcsa.ovs.service.VesselScheduleService;
 import org.dcsa.ovs.transferobjects.VesselScheduleTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Size;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class OVSRestController {
+
+  private final VesselScheduleService vesselScheduleService;
 
   @GetMapping(path = "/service-schedules")
   @ResponseStatus(HttpStatus.OK)
@@ -38,7 +40,23 @@ public class OVSRestController {
       @RequestParam(required = false) Integer limit,
       @RequestParam(required = false) String cursor,
       @RequestParam(value = "API-Version", required = false) String apiVersion) {
-    return Collections.emptyList();
+
+    return this.vesselScheduleService.findAll(
+        VesselScheduleService.ServiceSchedulesFilters.builder()
+            .carrierServiceCode(carrierServiceCode)
+            .universalServiceReference(universalServiceReference)
+            .vesselIMONumber(vesselIMONumber)
+            .vesselName(vesselName)
+            .voyageNumber(voyageNumber)
+            .universalVoyageReference(universalVoyageReference)
+            .unLocationCode(unLocationCode)
+            .facilitySMDGCode(facilitySMDGCode)
+            .startDate(startDate)
+            .endDate(endDate)
+            .limit(limit)
+            .cursor(cursor)
+            .apiVersion(apiVersion)
+            .build());
   }
 
   // TODO: Move to a handler
@@ -48,7 +66,7 @@ public class OVSRestController {
 
     String exceptionMessage = null;
 
-    if (Objects.nonNull(cvex.getConstraintViolations())) {
+    if (null != cvex.getConstraintViolations()) {
       exceptionMessage =
           cvex.getConstraintViolations().stream()
               .filter(Objects::nonNull)

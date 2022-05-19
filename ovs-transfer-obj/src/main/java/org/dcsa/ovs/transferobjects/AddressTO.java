@@ -2,7 +2,6 @@ package org.dcsa.ovs.transferobjects;
 
 import lombok.Builder;
 
-@Builder
 public record AddressTO(
   String name,
   String street,
@@ -12,4 +11,7 @@ public record AddressTO(
   String city,
   String stateRegion,
   String country
-) { }
+) {
+  @Builder // workaround for intellij issue
+  public AddressTO { }
+}
