@@ -20,10 +20,10 @@ public class VesselSchedule {
   private UUID id;
 
   @Column(name = "vessel_id")
-  private UUID vessel;
+  private UUID vesselId;
 
   @Column(name = "service_id")
-  private UUID service;
+  private UUID serviceId;
 
   @Column(name = "created_date_time", nullable = false)
   private OffsetDateTime createdDateTime;

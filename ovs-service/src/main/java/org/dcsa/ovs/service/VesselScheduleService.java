@@ -16,6 +16,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class VesselScheduleService {
 
+  private static final Voyage EMPTY_VOYAGE = new Voyage();
+
   private final ServiceRepository serviceRepository;
 
   @Builder
@@ -75,16 +77,16 @@ public class VesselScheduleService {
                 PortCallTO.builder()
                     .transportCallReference(transportCall.getReference())
                     .importVoyageNumber(
-                        Objects.requireNonNullElse(transportCall.getImportVoyage(), new Voyage())
+                        Objects.requireNonNullElse(transportCall.getImportVoyage(), EMPTY_VOYAGE)
                             .getCarrierVoyageNumber())
                     .exportVoyageNumber(
-                        Objects.requireNonNullElse(transportCall.getExportVoyage(), new Voyage())
+                        Objects.requireNonNullElse(transportCall.getExportVoyage(), EMPTY_VOYAGE)
                             .getCarrierVoyageNumber())
                     .importUniversalVoyageReference(
-                        Objects.requireNonNullElse(transportCall.getImportVoyage(), new Voyage())
+                        Objects.requireNonNullElse(transportCall.getImportVoyage(), EMPTY_VOYAGE)
                             .getUniversalVoyageReference())
                     .exportUniversalVoyageReference(
-                        Objects.requireNonNullElse(transportCall.getExportVoyage(), new Voyage())
+                        Objects.requireNonNullElse(transportCall.getExportVoyage(), EMPTY_VOYAGE)
                             .getUniversalVoyageReference())
                     .portTerminalLocation(randomPortTerminalLocation(transportCall))
                     .portCallStatusCode(
