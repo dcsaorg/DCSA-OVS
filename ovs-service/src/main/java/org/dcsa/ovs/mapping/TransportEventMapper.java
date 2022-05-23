@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
-public interface TimestampMapper {
+public interface TransportEventMapper {
   @Mappings(
       value = {
         @Mapping(target = "eventTypeCode", source = "typeCode"),

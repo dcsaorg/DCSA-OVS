@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequiredArgsConstructor
-public class OVSRestController {
+public class ServiceScheduleController {
 
   private final VesselScheduleService vesselScheduleService;
 

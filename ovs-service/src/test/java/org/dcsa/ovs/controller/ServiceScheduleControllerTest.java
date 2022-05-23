@@ -1,9 +1,6 @@
 package org.dcsa.ovs.controller;
 
-import org.dcsa.ovs.mapping.PortCallMapper;
-import org.dcsa.ovs.mapping.TimestampMapper;
-import org.dcsa.ovs.mapping.VesselMapper;
-import org.dcsa.ovs.mapping.VesselScheduleMapper;
+import org.dcsa.ovs.mapping.ServiceMapper;
 import org.dcsa.ovs.service.VesselScheduleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,20 +22,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Test for service scheduler endpoint")
-@WebMvcTest(controllers = {OVSRestController.class})
-class OVSRestControllerTest {
+@WebMvcTest(controllers = {ServiceScheduleController.class})
+class ServiceScheduleControllerTest {
 
   @Autowired MockMvc mockMvc;
 
   @MockBean VesselScheduleService vesselScheduleService;
 
-  @Spy VesselScheduleMapper vesselScheduleMapper;
-
-  @Spy VesselMapper vesselMapper;
-
-  @Spy PortCallMapper portCallMapper;
-
-  @Spy TimestampMapper timestampMapper;
+  @Spy ServiceMapper vesselScheduleMapper;
 
   @Test
   @DisplayName("GET service scheduler should return 200 for given basic valid call")
