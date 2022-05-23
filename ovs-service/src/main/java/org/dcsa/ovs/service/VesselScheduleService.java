@@ -9,7 +9,6 @@ import org.dcsa.ovs.mapping.VesselScheduleMapper;
 import org.dcsa.ovs.persistence.entity.*;
 import org.dcsa.ovs.persistence.repository.ServiceRepository;
 import org.dcsa.ovs.transferobjects.*;
-import org.dcsa.ovs.transferobjects.enums.PortCallStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,9 +72,6 @@ public class VesselScheduleService {
             transportCall ->
                 portCallMapper.toTO(transportCall).toBuilder()
                     .portTerminalLocation(getPortTerminalLocation(transportCall))
-                    .portCallStatusCode(
-                        PortCallStatusCode.valueFromString(transportCall.getPortCallStatusCode())
-                            .orElse(null))
                     .timestamps(
                         transportCall.getTimestamps().stream().map(timestampMapper::toTO).toList())
                     .build())
