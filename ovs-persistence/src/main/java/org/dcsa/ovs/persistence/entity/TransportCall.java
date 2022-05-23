@@ -1,6 +1,7 @@
 package org.dcsa.ovs.persistence.entity;
 
 import lombok.*;
+import org.dcsa.ovs.persistence.entity.enums.PortCallStatusCode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -51,8 +52,9 @@ public class TransportCall {
   @JoinColumn(name = "export_voyage_id")
   private Voyage exportVoyage;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "port_call_status_code", length = 4)
-  private String portCallStatusCode;
+  private PortCallStatusCode portCallStatusCode;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportCall")
   private List<TransportEvent> timestamps;
