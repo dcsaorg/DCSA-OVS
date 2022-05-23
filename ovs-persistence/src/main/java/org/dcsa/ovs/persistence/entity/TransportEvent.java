@@ -24,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Setter(AccessLevel.PRIVATE)
 @Entity
-@Table(name = "transport_call")
+@Table(name = "transport_event")
 public class TransportEvent {
   @Id
   @GeneratedValue
@@ -50,7 +50,7 @@ public class TransportEvent {
   private String changeRemark;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "transport_call_id")
+  @JoinColumn(name = "transport_call_id", referencedColumnName = "id")
   private TransportCall transportCall;
 }
 /*
