@@ -10,6 +10,6 @@ public record VesselScheduleTO (
   String universalServiceReference,
   List<VesselTO> vessels
 ){
-  @Builder // workaround for intellij issue
+  @Builder(toBuilder = true) // workaround for intellij issue
   public VesselScheduleTO {}
 }

@@ -2,10 +2,13 @@ package org.dcsa.ovs.service;
 
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.dcsa.ovs.mapping.PortCallMapper;
+import org.dcsa.ovs.mapping.TimestampMapper;
+import org.dcsa.ovs.mapping.VesselMapper;
+import org.dcsa.ovs.mapping.VesselScheduleMapper;
 import org.dcsa.ovs.persistence.entity.*;
 import org.dcsa.ovs.persistence.repository.ServiceRepository;
 import org.dcsa.ovs.transferobjects.*;
-import org.dcsa.ovs.transferobjects.enums.DimensionUnit;
 import org.dcsa.ovs.transferobjects.enums.PortCallStatusCode;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +19,15 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class VesselScheduleService {
 
-  private static final Voyage EMPTY_VOYAGE = new Voyage();
-
   private final ServiceRepository serviceRepository;
+
+  private final VesselScheduleMapper vesselScheduleMapper;
+
+  private final VesselMapper vesselMapper;
+
+  private final PortCallMapper portCallMapper;
+
+  private final TimestampMapper timestampMapper;
 
   @Builder
   public static class ServiceSchedulesFilters {
@@ -42,10 +51,7 @@ public class VesselScheduleService {
     return serviceRepository.findAll().stream()
         .map(
             service ->
-                VesselScheduleTO.builder()
-                    .carrierServiceName(service.getCarrierServiceName())
-                    .carrierServiceCode(service.getCarrierServiceCode())
-                    .universalServiceReference(service.getUniversalServiceReference())
+                vesselScheduleMapper.toTO(service).toBuilder()
                     .vessels(extractVesselsToVesselTO(service.getVessels()))
                     .build())
         .toList();
@@ -55,16 +61,7 @@ public class VesselScheduleService {
     return vessels.stream()
         .map(
             vessel ->
-                VesselTO.builder()
-                    .vesselName(vessel.getName())
-                    .vesselIMONumber(vessel.getImoNumber())
-                    .vesselOperatorCarrierSMDGCode(vessel.getOperatorCarrier().getSmdgCode())
-                    .vesselCallSign(vessel.getCallSign())
-                    .vesselLength(vessel.getLength())
-                    .vesselWidth(vessel.getWidth())
-                    .dimensionUnit(
-                        DimensionUnit.valueFromString(vessel.getDimensionUnit()).orElse(null))
-                    .isDummyVessel(vessel.getIsDummy())
+                vesselMapper.toTo(vessel).toBuilder()
                     .portCalls(extractTransportCallToPortCallTo(vessel.getPortCalls()))
                     .build())
         .toList();
@@ -74,101 +71,65 @@ public class VesselScheduleService {
     return transportCalls.stream()
         .map(
             transportCall ->
-                PortCallTO.builder()
-                    .transportCallReference(transportCall.getReference())
-                    .importVoyageNumber(
-                        Objects.requireNonNullElse(transportCall.getImportVoyage(), EMPTY_VOYAGE)
-                            .getCarrierVoyageNumber())
-                    .exportVoyageNumber(
-                        Objects.requireNonNullElse(transportCall.getExportVoyage(), EMPTY_VOYAGE)
-                            .getCarrierVoyageNumber())
-                    .importUniversalVoyageReference(
-                        Objects.requireNonNullElse(transportCall.getImportVoyage(), EMPTY_VOYAGE)
-                            .getUniversalVoyageReference())
-                    .exportUniversalVoyageReference(
-                        Objects.requireNonNullElse(transportCall.getExportVoyage(), EMPTY_VOYAGE)
-                            .getUniversalVoyageReference())
-                    .portTerminalLocation(randomPortTerminalLocation(transportCall))
+                portCallMapper.toTO(transportCall).toBuilder()
+                    .portTerminalLocation(getPortTerminalLocation(transportCall))
                     .portCallStatusCode(
                         PortCallStatusCode.valueFromString(transportCall.getPortCallStatusCode())
                             .orElse(null))
-                    .timestamps(extractTransportEventToTimestampTO(transportCall.getTimestamps()))
+                    .timestamps(
+                        transportCall.getTimestamps().stream().map(timestampMapper::toTO).toList())
                     .build())
         .toList();
   }
 
-  private PortTerminalLocation randomPortTerminalLocation(TransportCall transportCall) {
+  // decide returned data based on nullable fields
+  private PortTerminalLocation getPortTerminalLocation(TransportCall transportCall) {
+    // default rule : if both facility and address are present on location we return
+    // PortTerminalLocation: facilitySMDGLocation
+    PortTerminalLocation portTerminalLocation = null;
+    Location location = transportCall.getLocation();
 
-    int randomInt = (int) Math.floor(Math.random() * (100) + 1);
+    if (null != location) {
 
-    if (randomInt < 33) {
-      // location is nullable hence a null check is required
-      if (null != transportCall.getLocation()) {
-        return UNLocationLocationTO.builder()
-            .locationName(transportCall.getLocation().getName())
-            .UNLocationCode(transportCall.getLocation().getUnLocationCode())
-            .build();
+      if (null != location.getFacility()) {
+
+        portTerminalLocation =
+            FacilitySMDGLocationTO.builder()
+                .locationName(location.getName())
+                .UNLocationCode(location.getUnLocationCode())
+                .facilitySMDGCode(
+                    Objects.requireNonNullElse(transportCall.getFacility(), new Facility())
+                        .getSmdgCode())
+                .build();
+
+      } else if (null != location.getAddress()) {
+
+        Address address = location.getAddress();
+        AddressTO addressTO =
+            AddressTO.builder()
+                .name(address.getName())
+                .street(address.getStreet())
+                .streetNumber(address.getStreetNumber())
+                .floor(address.getFloor())
+                .postCode(address.getPostalCode())
+                .city(address.getCity())
+                .stateRegion(address.getStateRegion())
+                .country(address.getCountry())
+                .build();
+
+        portTerminalLocation =
+            AddressLocationTO.builder().locationName(location.getName()).address(addressTO).build();
+
       } else {
-        return UNLocationLocationTO.builder().build();
-      }
-    } else if (randomInt >= 33 && randomInt <= 66) {
-      // location is nullable hence a null check is required
-      if (null != transportCall.getLocation()) {
-        return FacilitySMDGLocationTO.builder()
-            .locationName(transportCall.getLocation().getName())
-            .UNLocationCode(transportCall.getLocation().getUnLocationCode())
-            .facilitySMDGCode(
-                Objects.requireNonNullElse(transportCall.getFacility(), new Facility())
-                    .getSmdgCode())
-            .build();
-      } else {
-        return FacilitySMDGLocationTO.builder().build();
-      }
-    } else {
-      // location is nullable hence a null check is required
-      if (null != transportCall.getLocation()) {
 
-        Address address = transportCall.getLocation().getAddress();
-        AddressTO addressTO;
-        // address is nullable hence a null check is required
-        if (null != address) {
-          addressTO =
-              AddressTO.builder()
-                  .name(address.getName())
-                  .street(address.getStreet())
-                  .streetNumber(address.getStreetNumber())
-                  .floor(address.getFloor())
-                  .postCode(address.getPostalCode())
-                  .city(address.getCity())
-                  .stateRegion(address.getStateRegion())
-                  .country(address.getCountry())
-                  .build();
-        } else {
-          addressTO = AddressTO.builder().build();
-        }
-
-        return AddressLocationTO.builder()
-            .locationName(transportCall.getLocation().getName())
-            .address(addressTO)
-            .build();
-      } else {
-        return AddressLocationTO.builder().build();
+        portTerminalLocation =
+            UNLocationLocationTO.builder()
+                .locationName(location.getName())
+                .UNLocationCode(location.getUnLocationCode())
+                .build();
       }
     }
-  }
 
-  private List<TimestampTO> extractTransportEventToTimestampTO(
-      List<TransportEvent> transportEvents) {
-    return transportEvents.stream()
-        .map(
-            transportEvent ->
-                TimestampTO.builder()
-                    .eventTypeCode(transportEvent.getTypeCode())
-                    .eventClassifierCode(transportEvent.getClassifierCode())
-                    .eventDateTime(transportEvent.getDateTime())
-                    .delayReasonCode(transportEvent.getDelayReasonCode())
-                    .changeRemark(transportEvent.getChangeRemark())
-                    .build())
-        .toList();
+    return portTerminalLocation;
   }
 }

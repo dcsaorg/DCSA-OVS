@@ -15,6 +15,6 @@ public record PortCallTO(
   PortCallStatusCode portCallStatusCode,
   List<TimestampTO> timestamps
 ) {
-  @Builder // workaround for intellij issue
+  @Builder(toBuilder = true) // workaround for intellij issue
   public PortCallTO {}
 }
