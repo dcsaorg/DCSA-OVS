@@ -1,10 +1,11 @@
-package org.dcsa.ovs.transferobjects.enums;
+package org.dcsa.ovs.persistence.entity.enums;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum PortCallStatusCode {
   OMIT("Omit"),
   BLNK("Blank"),
