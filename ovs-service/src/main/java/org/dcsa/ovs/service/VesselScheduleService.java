@@ -37,7 +37,7 @@ public class VesselScheduleService {
   public List<VesselScheduleTO> findAll(ServiceSchedulesFilters requestFilters) {
 
     return serviceRepository.findAll().stream()
-        .map(service -> serviceMapper.toTO(service).toBuilder().build())
+        .map(serviceMapper::toTO)
         .toList();
   }
 }

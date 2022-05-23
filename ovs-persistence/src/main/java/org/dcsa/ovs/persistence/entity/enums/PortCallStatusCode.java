@@ -12,6 +12,7 @@ public enum PortCallStatusCode {
   ADHO("Ad Hoc"),
   PHOT("Phase Out"),
   PHIN("Phase In"),
+  ROTC("Rotation Change"),
   SLID("Sliding");
 
   private final String name;
