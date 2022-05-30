@@ -12,21 +12,20 @@
 
 	<groupId>org.dcsa.ovs</groupId>
 	<artifactId>dcsa-ovs-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
 	<name>DCSA-OVS</name>
 	<description>Operational Vessel Schedules</description>
 
 	<properties>
-		<!-- Re-Define DCSA-Core version -->
-		<dcsa.core.tag/>
-		<dcsa.core.version>0.8.33</dcsa.core.version>
-		<dcsa.artifacttype>-SNAPSHOT</dcsa.artifacttype>
-		<core.version>${dcsa.core.version}${dcsa.core.tag}${dcsa.artifacttype}</core.version>
-		<!-- End: Re-Define DCSA-Core version -->
+		<!-- Define DCSA-OVS version -->
+		<revision>0.0.1</revision>
+		<sha1/>
+		<changelist>-SNAPSHOT</changelist>
+		<!-- End: Define DCSA-OVS version -->
 
 		<!-- Define Shared Kernel version -->
-		<dcsa.shared-kernel.version>0.0.3</dcsa.shared-kernel.version>
+		<dcsa.shared-kernel.version>0.1.0</dcsa.shared-kernel.version>
 		<dcsa.shared-kernel.tag/>
 		<dcsa.shared-kernel.artifacttype>-SNAPSHOT</dcsa.shared-kernel.artifacttype>
 		<shared-kernel.version>${dcsa.shared-kernel.version}${dcsa.shared-kernel.tag}${dcsa.shared-kernel.artifacttype}</shared-kernel.version>
@@ -37,6 +36,10 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.dcsa.shared-kernel</groupId>
+			<artifactId>dcsa-shared-kernel-all</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -64,7 +67,15 @@
 				<artifactId>dcsa-ovs-persistence</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.dcsa.shared-kernel</groupId>
+				<artifactId>dcsa-shared-kernel-parent</artifactId>
+				<version>${shared-kernel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 	<repositories>
