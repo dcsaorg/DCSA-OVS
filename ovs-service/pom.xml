@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>org.dcsa.ovs</groupId>
 		<artifactId>dcsa-ovs-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${revision}${sha1}${changelist}</version>
 	</parent>
 
 	<name>DCSA OVS - Service</name>
 	<groupId>org.dcsa.ovs</groupId>
 	<artifactId>dcsa-ovs-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${revision}${sha1}${changelist}</version>
 	<packaging>jar</packaging>
 
 	<description>DCSA OVS - Service</description>
