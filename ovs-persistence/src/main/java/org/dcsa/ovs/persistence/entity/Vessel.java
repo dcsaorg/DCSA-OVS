@@ -1,14 +1,10 @@
 package org.dcsa.ovs.persistence.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -52,8 +48,10 @@ public class Vessel {
   @Column(name = "dimension_unit", length = 3)
   private String dimensionUnit;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "vessel")
-  List<TransportCall> portCalls;
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  @OneToMany(mappedBy = "vessel")
+  private Set<TransportCall> portCalls = new LinkedHashSet<>();
 }
 /*
 CREATE TABLE dcsa_im_v3_0.vessel (

@@ -31,9 +31,8 @@ public class VesselScheduleTerminalVisits {
   @Column(name = "id", nullable = false)
   private UUID id; // Only to satisfy JPA/Hibernate
 
-  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "vessel_schedule_id")
-  private VesselSchedule vesselSchedule;
+  private UUID vesselScheduleId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "actual_arrival_event_id")

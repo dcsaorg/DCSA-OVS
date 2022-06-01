@@ -4,7 +4,8 @@ import lombok.*;
 import org.dcsa.ovs.persistence.entity.enums.PortCallStatusCode;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -56,8 +57,10 @@ public class TransportCall {
   @Column(name = "port_call_status_code", length = 4)
   private PortCallStatusCode portCallStatusCode;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportCall")
-  private List<TransportEvent> timestamps;
+  @EqualsAndHashCode.Exclude
+  @OneToMany
+  @JoinColumn(name="transport_call_id")
+  private Set<TransportEvent> timestamps = new LinkedHashSet<>();
 }
 /*
 CREATE TABLE dcsa_im_v3_0.transport_call (
