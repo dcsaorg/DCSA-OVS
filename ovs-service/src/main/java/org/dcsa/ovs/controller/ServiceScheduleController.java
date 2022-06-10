@@ -37,11 +37,13 @@ public class ServiceScheduleController {
       @Size(max = 5) @RequestParam(required = false) String facilitySMDGCode,
       @RequestParam(required = false) String startDate,
       @RequestParam(required = false) String endDate,
-      @RequestParam(required = false) Integer limit,
+      @RequestParam(required = false, defaultValue = "100") Integer limit,
       @RequestParam(required = false) String cursor,
-      @RequestParam(value = "API-Version", required = false) String apiVersion) {
+      @RequestParam(value = "API-Version", required = false) String apiVersion,
+      HttpServletRequest request) {
 
     return this.vesselScheduleService.findAll(
+        request,
         VesselScheduleService.ServiceSchedulesFilters.builder()
             .carrierServiceCode(carrierServiceCode)
             .universalServiceReference(universalServiceReference)
@@ -54,8 +56,6 @@ public class ServiceScheduleController {
             .startDate(startDate)
             .endDate(endDate)
             .limit(limit)
-            .cursor(cursor)
-            .apiVersion(apiVersion)
             .build());
   }
 

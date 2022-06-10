@@ -34,7 +34,7 @@ class ServiceScheduleControllerTest {
   @Test
   @DisplayName("GET service scheduler should return 200 for given basic valid call")
   void testGetServiceSchedulerReturns200ForGivenBasicCall() throws Exception {
-    when(vesselScheduleService.findAll(any())).thenReturn(Collections.emptyList());
+    when(vesselScheduleService.findAll(any(), any())).thenReturn(Collections.emptyList());
     this.mockMvc
         .perform(get("/service-schedules").accept(MediaType.APPLICATION_JSON_VALUE))
         .andDo(print())

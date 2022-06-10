@@ -127,25 +127,25 @@ public class ServiceScheduleIT {
 
   @Test
   void testServiceScheduleFilterVoyageNumber() {
-        given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .queryParam("voyageNumber", "4419W")
-            .get("/v3/service-schedules")
-            .then()
-            .assertThat()
-            .statusCode(HttpStatus.SC_OK)
-            .body("size()", is(1))
-            .body("[0].carrierServiceCode", equalTo("B_HLC"))
-            .body("[0].carrierServiceName", equalTo("B_carrier_service_name"))
-            .body("[0].universalServiceReference", equalTo("SR00002B"))
-            .body("[0].vessels.size()", is(1))
-            .body("[0].vessels[0].vesselIMONumber", equalTo("9811000"))
-            .body("[0].vessels[0].vesselOperatorCarrierSMDGCode", equalTo("EMC"))
-            .body("[0].vessels[0].vesselName", equalTo("Ever Given"))
-            .body("[0].vessels[0].portCalls[0].importVoyageNumber", equalTo("4419W"))
-            .extract()
-            .body()
-            .asString();
+    given()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .queryParam("voyageNumber", "4419W")
+        .get("/v3/service-schedules")
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_OK)
+        .body("size()", is(1))
+        .body("[0].carrierServiceCode", equalTo("B_HLC"))
+        .body("[0].carrierServiceName", equalTo("B_carrier_service_name"))
+        .body("[0].universalServiceReference", equalTo("SR00002B"))
+        .body("[0].vessels.size()", is(1))
+        .body("[0].vessels[0].vesselIMONumber", equalTo("9811000"))
+        .body("[0].vessels[0].vesselOperatorCarrierSMDGCode", equalTo("EMC"))
+        .body("[0].vessels[0].vesselName", equalTo("Ever Given"))
+        .body("[0].vessels[0].portCalls[0].importVoyageNumber", equalTo("4419W"))
+        .extract()
+        .body()
+        .asString();
   }
 
   @Test
@@ -217,7 +217,9 @@ public class ServiceScheduleIT {
         .body("[0].vessels[0].portCalls[0].importVoyageNumber", equalTo("A_carrier_voyage_number"))
         .body("[0].vessels[0].portCalls[0].exportVoyageNumber", equalTo("A_carrier_voyage_number"))
         .body("[0].vessels[0].portCalls[0].portTerminalLocation.UNLocationCode", equalTo("BRRIO"))
-        .body("[0].vessels[0].portCalls[0].portTerminalLocation.locationName", equalTo("Rio de Janeiro"))
+        .body(
+            "[0].vessels[0].portCalls[0].portTerminalLocation.locationName",
+            equalTo("Rio de Janeiro"))
         .body("[0].vessels[0].portCalls[0].portTerminalLocation.facilitySMDGCode", equalTo("BTP"))
         .extract()
         .body()
@@ -235,15 +237,16 @@ public class ServiceScheduleIT {
         .assertThat()
         .statusCode(HttpStatus.SC_OK)
         .body("size()", is(2))
-        .body("[1].carrierServiceCode", equalTo("B_HLC"))
-        .body("[1].carrierServiceName", equalTo("B_carrier_service_name"))
-        .body("[1].universalServiceReference", equalTo("SR00002B"))
-        .body("[1].vessels.size()", is(1))
-        .body("[1].vessels[0].vesselIMONumber", equalTo("1234567"))
-        .body("[1].vessels[0].vesselOperatorCarrierSMDGCode", equalTo("MSK"))
-        .body("[1].vessels[0].vesselName", equalTo("King of the Seas"))
-        .body("[1].vessels[0].portCalls[0].transportCallReference", equalTo("TC-REF-08_02-A"))
-        .body("[1].vessels[0].portCalls[0].timestamps[0].eventDateTime", containsString("2003-05-03"))
+        .body("[0].carrierServiceCode", equalTo("B_HLC"))
+        .body("[0].carrierServiceName", equalTo("B_carrier_service_name"))
+        .body("[0].universalServiceReference", equalTo("SR00002B"))
+        .body("[0].vessels.size()", is(1))
+        .body("[0].vessels[0].vesselIMONumber", equalTo("1234567"))
+        .body("[0].vessels[0].vesselOperatorCarrierSMDGCode", equalTo("MSK"))
+        .body("[0].vessels[0].vesselName", equalTo("King of the Seas"))
+        .body("[0].vessels[0].portCalls[0].transportCallReference", equalTo("TC-REF-08_02-A"))
+        .body(
+            "[1].vessels[0].portCalls[0].timestamps[0].eventDateTime", containsString("2003-05-03"))
         .extract()
         .body()
         .asString();
@@ -253,29 +256,61 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterUniversalServiceReferenceAndFacilitySMDGCode() {
     given()
-      .contentType(MediaType.APPLICATION_JSON_VALUE)
-      .queryParam("universalServiceReference", "SR00002B") // yyyy-MM-dd
-      .queryParam("facilitySMDGCode", "BTP") // yyyy-MM-dd
-      .get("/v3/service-schedules")
-      .then()
-      .assertThat()
-      .statusCode(HttpStatus.SC_OK)
-      .body("size()", is(1))
-      .body("[0].carrierServiceCode", equalTo("B_HLC"))
-      .body("[0].carrierServiceName", equalTo("B_carrier_service_name"))
-      .body("[0].universalServiceReference", equalTo("SR00002B"))
-      .body("[0].vessels.size()", is(1))
-      .body("[0].vessels[0].vesselIMONumber", equalTo("9811000"))
-      .body("[0].vessels[0].vesselOperatorCarrierSMDGCode", equalTo("EMC"))
-      .body("[0].vessels[0].vesselName", equalTo("Ever Given"))
-      .body("[0].vessels[0].portCalls[0].transportCallReference", equalTo("TC-REF-08_03-B"))
-      .body("[0].vessels[0].portCalls[0].importVoyageNumber", equalTo("A_carrier_voyage_number"))
-      .body("[0].vessels[0].portCalls[0].exportVoyageNumber", equalTo("A_carrier_voyage_number"))
-      .body("[0].vessels[0].portCalls[0].portTerminalLocation.UNLocationCode", equalTo("BRRIO"))
-      .body("[0].vessels[0].portCalls[0].portTerminalLocation.locationName", equalTo("Rio de Janeiro"))
-      .body("[0].vessels[0].portCalls[0].portTerminalLocation.facilitySMDGCode", equalTo("BTP"))
-      .extract()
-      .body()
-      .asString();
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .queryParam("universalServiceReference", "SR00002B") // yyyy-MM-dd
+        .queryParam("facilitySMDGCode", "BTP") // yyyy-MM-dd
+        .get("/v3/service-schedules")
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_OK)
+        .body("size()", is(1))
+        .body("[0].carrierServiceCode", equalTo("B_HLC"))
+        .body("[0].carrierServiceName", equalTo("B_carrier_service_name"))
+        .body("[0].universalServiceReference", equalTo("SR00002B"))
+        .body("[0].vessels.size()", is(1))
+        .body("[0].vessels[0].vesselIMONumber", equalTo("9811000"))
+        .body("[0].vessels[0].vesselOperatorCarrierSMDGCode", equalTo("EMC"))
+        .body("[0].vessels[0].vesselName", equalTo("Ever Given"))
+        .body("[0].vessels[0].portCalls[0].transportCallReference", equalTo("TC-REF-08_03-B"))
+        .body("[0].vessels[0].portCalls[0].importVoyageNumber", equalTo("A_carrier_voyage_number"))
+        .body("[0].vessels[0].portCalls[0].exportVoyageNumber", equalTo("A_carrier_voyage_number"))
+        .body("[0].vessels[0].portCalls[0].portTerminalLocation.UNLocationCode", equalTo("BRRIO"))
+        .body(
+            "[0].vessels[0].portCalls[0].portTerminalLocation.locationName",
+            equalTo("Rio de Janeiro"))
+        .body("[0].vessels[0].portCalls[0].portTerminalLocation.facilitySMDGCode", equalTo("BTP"))
+        .extract()
+        .body()
+        .asString();
+  }
+
+  @Test
+  void testServiceScheduleFilterLimit1() {
+    given()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .queryParam("limit", "1")
+        .get("/v3/service-schedules")
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_OK)
+        .body("size()", is(1))
+        .extract()
+        .body()
+        .asString();
+  }
+
+  @Test
+  void testServiceScheduleFilterLimit3() {
+    given()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .queryParam("limit", "3")
+        .get("/v3/service-schedules")
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_OK)
+        .body("size()", is(3))
+        .extract()
+        .body()
+        .asString();
   }
 }
