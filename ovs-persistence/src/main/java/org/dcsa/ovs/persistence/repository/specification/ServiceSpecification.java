@@ -105,9 +105,11 @@ public class ServiceSpecification {
       }
 
       if (null != filters.facilitySMDGCode) {
+        Join<Location, Facility> locationFacilityJoin =
+          transportCallLocationJoin.join(Location_.FACILITY, JoinType.LEFT);
         Predicate facilitySMDGCodePredicate =
             builder.equal(
-                vesselTransportCallJoin.get(TransportCall_.FACILITY_TYPE_CODE),
+              locationFacilityJoin.get(Facility_.SMDG_CODE),
                 filters.facilitySMDGCode);
         predicates.add(facilitySMDGCodePredicate);
       }
