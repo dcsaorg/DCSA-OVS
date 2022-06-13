@@ -28,11 +28,3 @@ public class VesselSchedule {
   @Column(name = "created_date_time", nullable = false)
   private OffsetDateTime createdDateTime;
 }
-/*
-CREATE TABLE dcsa_im_v3_0.vessel_schedule (
-    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    vessel_id uuid NOT NULL REFERENCES dcsa_im_v3_0.vessel (id),
-    service_id uuid NOT NULL REFERENCES dcsa_im_v3_0.service (id),
-    created_date_time timestamp with time zone NOT NULL DEFAULT now()
-);
- */
