@@ -3,9 +3,23 @@ package org.dcsa.ovs.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
+@NamedEntityGraph(
+    name = "graph.vessels",
+    attributeNodes = {@NamedAttributeNode(value = "vessels", subgraph = "subgraph.portcalls")},
+    subgraphs = {
+      @NamedSubgraph(
+          name = "subgraph.portcalls",
+          attributeNodes = {
+            @NamedAttributeNode(value = "portCalls", subgraph = "subgraph.timestamps")
+          }),
+      @NamedSubgraph(
+          name = "subgraph.timestamps",
+          attributeNodes = {@NamedAttributeNode(value = "timestamps")})
+    })
 @Data
 @Builder
 @NoArgsConstructor
@@ -36,12 +50,13 @@ public class Service {
   @Column(name = "universal_service_reference", length = 8)
   private String universalServiceReference;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @EqualsAndHashCode.Exclude
+  @OneToMany
   @JoinTable(
       name = "vessel_schedule",
       joinColumns = @JoinColumn(name = "service_id"),
       inverseJoinColumns = @JoinColumn(name = "vessel_id"))
-  List<Vessel> vessels;
+  private Set<Vessel> vessels = new LinkedHashSet<>();
 }
 /*
 CREATE TABLE dcsa_im_v3_0.service (

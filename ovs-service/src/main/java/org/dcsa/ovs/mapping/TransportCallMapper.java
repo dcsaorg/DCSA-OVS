@@ -50,7 +50,7 @@ public abstract class TransportCallMapper {
                 .locationName(location.getName())
                 .UNLocationCode(location.getUnLocationCode())
                 .facilitySMDGCode(
-                    Objects.requireNonNullElseGet(transportCall.getFacility(), Facility::new)
+                    Objects.requireNonNullElseGet(location.getFacility(), Facility::new)
                         .getSmdgCode())
                 .build();
 

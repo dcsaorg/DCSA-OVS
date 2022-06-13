@@ -34,7 +34,7 @@ class ServiceScheduleControllerTest {
   @Test
   @DisplayName("GET service scheduler should return 200 for given basic valid call")
   void testGetServiceSchedulerReturns200ForGivenBasicCall() throws Exception {
-    when(vesselScheduleService.findAll(any())).thenReturn(Collections.emptyList());
+    when(vesselScheduleService.findAll(any(), any())).thenReturn(Collections.emptyList());
     this.mockMvc
         .perform(get("/service-schedules").accept(MediaType.APPLICATION_JSON_VALUE))
         .andDo(print())
@@ -72,14 +72,14 @@ class ServiceScheduleControllerTest {
         .perform(
             get("/service-schedules")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .param("universalServiceReference", "x".repeat(6)))
+                .param("universalServiceReference", "x".repeat(9)))
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.httpMethod").value("GET"))
         .andExpect(jsonPath("$.requestUri").value("/service-schedules"))
         .andExpect(jsonPath("$.errors[0].reason").value("invalidInput"))
         .andExpect(
-            jsonPath("$.errors[0].message").value(containsString("size must be between 0 and 5")));
+            jsonPath("$.errors[0].message").value(containsString("size must be between 0 and 8")));
   }
 
   @Test
