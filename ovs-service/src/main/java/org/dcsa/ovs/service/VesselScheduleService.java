@@ -11,6 +11,8 @@ import org.dcsa.ovs.transferobjects.VesselScheduleTO;
 import org.dcsa.skernel.infrastructure.pagination.Cursor;
 import org.dcsa.skernel.infrastructure.pagination.CursorDefaults;
 import org.dcsa.skernel.infrastructure.pagination.Paginator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class VesselScheduleService {
 
   private final ObjectMapper objectMapper;
 
+  public static record VesselScheduleTOPage(
+    int totalPages,
+    List<VesselScheduleTO> list
+  ) {}
+
   @Builder
   public static class ServiceSchedulesFilters {
     String carrierServiceCode;
@@ -46,18 +53,9 @@ public class VesselScheduleService {
     String apiVersion;
   }
 
-  public List<VesselScheduleTO> findAll(
-      HttpServletRequest request, final ServiceSchedulesFilters requestFilters) {
+  public VesselScheduleTOPage findAll(Cursor cursor, final ServiceSchedulesFilters requestFilters) {
 
-    Paginator paginator = new Paginator(objectMapper);
-    Cursor c =
-        paginator.parseRequest(
-            request,
-            new CursorDefaults(
-                requestFilters.limit,
-                new Cursor.SortBy(Sort.Direction.DESC, Service_.CARRIER_SERVICE_CODE)));
-
-    return serviceRepository
+    Page<org.dcsa.ovs.persistence.entity.Service> page = serviceRepository
         .findAll(
             withFilters(
                 ServiceSpecification.ServiceSchedulesFilters.builder()
@@ -72,9 +70,11 @@ public class VesselScheduleService {
                     .startDate(requestFilters.startDate)
                     .endDate(requestFilters.endDate)
                     .build()),
-            c.toPageRequest())
-        .stream()
+            cursor.toPageRequest());
+
+    return new VesselScheduleTOPage(page.getTotalPages(),
+        page.stream()
         .map(serviceMapper::toTO)
-        .toList();
+        .toList());
   }
 }
