@@ -36,7 +36,7 @@ public class ServiceScheduleController {
     @Size(max = 5) @RequestParam(required = false) String carrierServiceCode,
     @Size(max = 8) @RequestParam(required = false) String universalServiceReference,
     // TODO: use the vesselIMONumber validator from core
-    @Size(max = 7) @RequestParam(required = false) String vesselIMONumber,
+    @ValidVesselIMONumber(allowNull = true) @RequestParam(required = false) String vesselIMONumber,
     @Size(max = 35) @RequestParam(required = false) String vesselName,
     @Size(max = 50) @RequestParam(required = false) String voyageNumber,
     @RequestParam(required = false) String universalVoyageReference,
