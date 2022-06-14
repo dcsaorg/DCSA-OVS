@@ -3,10 +3,10 @@ package org.dcsa.ovs.controller;
 import lombok.RequiredArgsConstructor;
 import org.dcsa.ovs.persistence.entity.Service_;
 import org.dcsa.ovs.service.VesselScheduleService;
-import org.dcsa.ovs.service.VesselScheduleService.VesselScheduleTOPage;
 import org.dcsa.ovs.transferobjects.VesselScheduleTO;
 import org.dcsa.skernel.infrastructure.pagination.Cursor;
 import org.dcsa.skernel.infrastructure.pagination.CursorDefaults;
+import org.dcsa.skernel.infrastructure.pagination.PagedResult;
 import org.dcsa.skernel.infrastructure.pagination.Paginator;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -53,7 +53,7 @@ public class ServiceScheduleController {
         request,
         new CursorDefaults(limit, Sort.Direction.DESC, Service_.CARRIER_SERVICE_CODE));
 
-    VesselScheduleTOPage result = vesselScheduleService.findAll(
+    PagedResult<VesselScheduleTO> result = vesselScheduleService.findAll(
       cursor,
       VesselScheduleService.ServiceSchedulesFilters.builder()
         .carrierServiceCode(carrierServiceCode)
@@ -69,8 +69,8 @@ public class ServiceScheduleController {
         .limit(limit)
         .build());
 
-    paginator.setPageHeaders(request, response, cursor, result.totalPages());
-    return result.list();
+    paginator.setPageHeaders(request, response, cursor, result);
+    return result.content();
   }
 
   // TODO: Move to a handler
