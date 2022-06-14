@@ -36,11 +36,3 @@ public class Carrier {
   @Column(name = "nmfta_code", length = 4)
   private String nmftaCode;
 }
-/*
-CREATE TABLE dcsa_im_v3_0.carrier (
-    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    carrier_name varchar(100),
-    smdg_code varchar(3) NULL,
-    nmfta_code varchar(4) NULL
-);
- */

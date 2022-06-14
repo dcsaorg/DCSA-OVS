@@ -38,17 +38,3 @@ public class TransportEvent {
   @Column(name = "change_remark", length = 250)
   private String changeRemark;
 }
-/*
-CREATE TABLE dcsa_im_v3_0.event (
-    event_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    event_classifier_code varchar(3) NOT NULL REFERENCES dcsa_im_v3_0.event_classifier(event_classifier_code),
-    event_created_date_time timestamp with time zone DEFAULT now() NOT NULL,
-    event_date_time timestamp with time zone NOT NULL
-);
-CREATE TABLE dcsa_im_v3_0.transport_event (
-    transport_event_type_code varchar(4) NOT NULL REFERENCES dcsa_im_v3_0.transport_event_type(transport_event_type_code),
-    delay_reason_code varchar(4) NULL REFERENCES dcsa_im_v3_0.smdg_delay_reason(delay_reason_code),
-    change_remark varchar(250),
-    transport_call_id uuid NULL REFERENCES dcsa_im_v3_0.transport_call(id)
-) INHERITS (dcsa_im_v3_0.event);
- */

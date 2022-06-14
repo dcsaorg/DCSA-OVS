@@ -51,16 +51,3 @@ public class Address {
   @Column(name = "country", length = 65)
   private String country;
 }
-/*
-CREATE TABLE dcsa_im_v3_0.address (
-    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    name varchar(100) NULL,
-    street varchar(100) NULL,
-    street_number varchar(50) NULL,
-    floor varchar(50) NULL,
-    postal_code varchar(10) NULL,
-    city varchar(65) NULL,
-    state_region varchar(65) NULL,
-    country varchar(75) NULL
-);
- */

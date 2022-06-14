@@ -26,7 +26,7 @@ public class Vessel {
   @Column(name = "vessel_name", length = 35)
   private String name;
 
-  @Column(name = "vessel_flag", length = 2)
+  @Column(name = "vessel_flag", length = 2, columnDefinition = "bpchar")
   private String flag;
 
   @Column(name = "vessel_call_sign", length = 18)
@@ -39,10 +39,10 @@ public class Vessel {
   @Column(name = "is_dummy")
   private Boolean isDummy;
 
-  @Column(name = "length")
+  @Column(name = "length", columnDefinition = "numeric")
   private Float length;
 
-  @Column(name = "width")
+  @Column(name = "width", columnDefinition = "numeric")
   private Float width;
 
   @Column(name = "dimension_unit", length = 3)
@@ -53,17 +53,3 @@ public class Vessel {
   @OneToMany(mappedBy = "vessel")
   private Set<TransportCall> portCalls = new LinkedHashSet<>();
 }
-/*
-CREATE TABLE dcsa_im_v3_0.vessel (
-    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    vessel_imo_number varchar(7) NULL UNIQUE,
-    vessel_name varchar(35) NULL,
-    vessel_flag char(2) NULL,
-    vessel_call_sign varchar(10) NULL,
-    vessel_operator_carrier_id uuid NULL REFERENCES dcsa_im_v3_0.carrier (id),
-    is_dummy boolean NOT NULL default false,
-    length numeric NULL,
-    width numeric NULL,
-    dimension_unit varchar(3) NULL REFERENCES dcsa_im_v3_0.unit_of_measure(unit_of_measure_code) CONSTRAINT dimension_unit CHECK (dimension_unit IN ('FOT','MTR'))
-);
- */
