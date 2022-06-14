@@ -8,6 +8,7 @@ import org.dcsa.skernel.infrastructure.pagination.Cursor;
 import org.dcsa.skernel.infrastructure.pagination.CursorDefaults;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
 import org.dcsa.skernel.infrastructure.pagination.Paginator;
+import org.dcsa.skernel.infrastructure.validation.ValidVesselIMONumber;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
