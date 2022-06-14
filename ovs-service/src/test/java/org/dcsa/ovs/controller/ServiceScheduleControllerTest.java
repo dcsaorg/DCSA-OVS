@@ -2,7 +2,6 @@ package org.dcsa.ovs.controller;
 
 import org.dcsa.ovs.mapping.ServiceMapper;
 import org.dcsa.ovs.service.VesselScheduleService;
-import org.dcsa.ovs.transferobjects.VesselScheduleTO;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
