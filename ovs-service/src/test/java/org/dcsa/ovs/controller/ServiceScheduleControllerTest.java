@@ -98,7 +98,7 @@ class ServiceScheduleControllerTest {
         .andExpect(jsonPath("$.requestUri").value("/service-schedules"))
         .andExpect(jsonPath("$.errors[0].reason").value("invalidInput"))
         .andExpect(
-            jsonPath("$.errors[0].message").value(containsString("size must be between 0 and 7")));
+            jsonPath("$.errors[0].message").value(containsString("findAll.vesselIMONumber must be a valid Vessel IMO Number")));
   }
 
   @Test
