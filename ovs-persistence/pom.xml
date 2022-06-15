@@ -29,9 +29,12 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.dcsa.shared-kernel</groupId>
+			<artifactId>dcsa-shared-kernel-domain</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>5.6.9.Final</version>
 		</dependency>
 	</dependencies>
 	<build>
