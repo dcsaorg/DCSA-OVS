@@ -28,8 +28,8 @@ public class VesselSharingAgreement {
   private UUID id;
 
   @Column(name = "vessel_sharing_agreement_name", length = 50)
-  private String name;
+  private String vesselSharingAgreementName;
 
   @Column(name = "vessel_sharing_agreement_type_code", length = 50)
-  private String typeCode;
+  private String vesselSharingAgreementTypeCode;
 }

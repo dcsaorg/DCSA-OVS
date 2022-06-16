@@ -18,19 +18,19 @@ public class TransportEvent {
   @Id
   @GeneratedValue
   @Column(name = "event_id", nullable = false)
-  private UUID id;
+  private UUID eventID;
 
   @Column(name = "event_classifier_code", length = 3, nullable = false)
-  private String classifierCode;
+  private String eventClassifierCode;
 
   @Column(name = "event_created_date_time", nullable = false)
-  private OffsetDateTime createdDateTime;
+  private OffsetDateTime eventCreatedDateTime;
 
   @Column(name = "event_date_time", nullable = false)
-  private OffsetDateTime dateTime;
+  private OffsetDateTime eventDateTime;
 
   @Column(name = "transport_event_type_code", length = 4, nullable = false)
-  private String typeCode;
+  private String transportEventTypeCode;
 
   @Column(name = "delay_reason_code", length = 4)
   private String delayReasonCode;

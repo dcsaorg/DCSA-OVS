@@ -9,6 +9,6 @@ import org.mapstruct.Mapping;
     componentModel = "spring",
     uses = {TransportCallMapper.class})
 public interface VesselMapper {
-  @Mapping(target = "operatorCarrierSMDGCode", source = "operatorCarrier.smdgCode")
+  @Mapping(target = "vesselOperatorCarrierSMDGCode", source = "vesselOperatorCarrier.smdgCode")
   VesselTO toTo(Vessel vessel);
 }

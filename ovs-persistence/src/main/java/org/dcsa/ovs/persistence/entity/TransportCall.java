@@ -24,10 +24,10 @@ public class TransportCall {
   private UUID id;
 
   @Column(name = "transport_call_reference", length = 100, nullable = false)
-  private String reference; // Really a UUID
+  private String transportCallReference;
 
   @Column(name = "transport_call_sequence_number")
-  private Integer sequenceNumber;
+  private Integer transportCallSequenceNumber;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "facility_id")

@@ -28,7 +28,7 @@ public class Tradelane {
   private String id;
 
   @Column(name = "tradelane_name", length = 150, nullable = false)
-  private String name;
+  private String tradelaneName;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "vessel_sharing_agreement_id", nullable = false)

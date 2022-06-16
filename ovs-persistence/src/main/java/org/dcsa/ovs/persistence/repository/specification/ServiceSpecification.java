@@ -65,13 +65,13 @@ public class ServiceSpecification {
 
       if (null != filters.vesselIMONumber) {
         Predicate vesselIMONumberPredicate =
-            builder.equal(serviceVesselJoin.get(Vessel_.IMO_NUMBER), filters.vesselIMONumber);
+            builder.equal(serviceVesselJoin.get(Vessel_.VESSEL_IM_ONUMBER), filters.vesselIMONumber);
         predicates.add(vesselIMONumberPredicate);
       }
 
       if (null != filters.vesselName) {
         Predicate vesselNamePredicate =
-            builder.equal(serviceVesselJoin.get(Vessel_.NAME), filters.vesselName);
+            builder.equal(serviceVesselJoin.get(Vessel_.VESSEL_NAME), filters.vesselName);
         predicates.add(vesselNamePredicate);
       }
 
@@ -137,20 +137,20 @@ public class ServiceSpecification {
           dateRangePredicate =
               builder.and(
                   builder.greaterThanOrEqualTo(
-                      transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                      transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                       LocalDateTime.parse(filters.startDate, DATE_FORMAT).atOffset(ZoneOffset.UTC)),
                   builder.lessThanOrEqualTo(
-                      transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                      transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                       LocalDateTime.parse(filters.endDate, DATE_FORMAT).atOffset(ZoneOffset.UTC)));
         } else if (null != filters.startDate) {
           dateRangePredicate =
               builder.greaterThanOrEqualTo(
-                  transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                  transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                   LocalDateTime.parse(filters.startDate, DATE_FORMAT).atOffset(ZoneOffset.UTC));
         } else if (null != filters.endDate) {
           dateRangePredicate =
               builder.lessThanOrEqualTo(
-                  transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                  transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                   LocalDateTime.parse(filters.endDate, DATE_FORMAT).atOffset(ZoneOffset.UTC));
         }
 
