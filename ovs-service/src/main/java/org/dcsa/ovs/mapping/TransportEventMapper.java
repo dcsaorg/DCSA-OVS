@@ -10,9 +10,8 @@ import org.mapstruct.Mappings;
 public interface TransportEventMapper {
   @Mappings(
       value = {
-        @Mapping(target = "eventTypeCode", source = "typeCode"),
-        @Mapping(target = "eventClassifierCode", source = "classifierCode"),
-        @Mapping(target = "eventDateTime", source = "dateTime")
+        @Mapping(target = "eventTypeCode", source = "transportEventTypeCode"),
+        @Mapping(target = "eventClassifierCode", source = "eventClassifierCode"),
       })
   TimestampTO toTO(TransportEvent transportEvent);
 }

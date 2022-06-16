@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.dcsa.ovs.persistence.entity.*;
+import org.dcsa.skernel.domain.persistence.entity.Facility;
+import org.dcsa.skernel.domain.persistence.entity.Location;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Join;
@@ -63,13 +65,13 @@ public class ServiceSpecification {
 
       if (null != filters.vesselIMONumber) {
         Predicate vesselIMONumberPredicate =
-            builder.equal(serviceVesselJoin.get(Vessel_.IMO_NUMBER), filters.vesselIMONumber);
+            builder.equal(serviceVesselJoin.get(Vessel_.VESSEL_IM_ONUMBER), filters.vesselIMONumber);
         predicates.add(vesselIMONumberPredicate);
       }
 
       if (null != filters.vesselName) {
         Predicate vesselNamePredicate =
-            builder.equal(serviceVesselJoin.get(Vessel_.NAME), filters.vesselName);
+            builder.equal(serviceVesselJoin.get(Vessel_.VESSEL_NAME), filters.vesselName);
         predicates.add(vesselNamePredicate);
       }
 
@@ -100,16 +102,16 @@ public class ServiceSpecification {
       if (null != filters.unLocationCode) {
         Predicate unLocationPredicate =
             builder.equal(
-                transportCallLocationJoin.get(Location_.UN_LOCATION_CODE), filters.unLocationCode);
+                transportCallLocationJoin.get("UNLocationCode"), filters.unLocationCode);
         predicates.add(unLocationPredicate);
       }
 
       if (null != filters.facilitySMDGCode) {
         Join<Location, Facility> locationFacilityJoin =
-          transportCallLocationJoin.join(Location_.FACILITY, JoinType.LEFT);
+          transportCallLocationJoin.join("facility", JoinType.LEFT);
         Predicate facilitySMDGCodePredicate =
             builder.equal(
-              locationFacilityJoin.get(Facility_.SMDG_CODE),
+              locationFacilityJoin.get("facilitySMDGCode"),
                 filters.facilitySMDGCode);
         predicates.add(facilitySMDGCodePredicate);
       }
@@ -127,7 +129,7 @@ public class ServiceSpecification {
                 .toFormatter();
 
         Join<TransportCall, TransportEvent> transportCallTransportEventJoin =
-            vesselTransportCallJoin.join(TransportCall_.TIMESTAMPS, JoinType.LEFT);
+            vesselTransportCallJoin.join("timestamps", JoinType.LEFT);
 
         Predicate dateRangePredicate = null;
 
@@ -135,20 +137,20 @@ public class ServiceSpecification {
           dateRangePredicate =
               builder.and(
                   builder.greaterThanOrEqualTo(
-                      transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                      transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                       LocalDateTime.parse(filters.startDate, DATE_FORMAT).atOffset(ZoneOffset.UTC)),
                   builder.lessThanOrEqualTo(
-                      transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                      transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                       LocalDateTime.parse(filters.endDate, DATE_FORMAT).atOffset(ZoneOffset.UTC)));
         } else if (null != filters.startDate) {
           dateRangePredicate =
               builder.greaterThanOrEqualTo(
-                  transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                  transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                   LocalDateTime.parse(filters.startDate, DATE_FORMAT).atOffset(ZoneOffset.UTC));
         } else if (null != filters.endDate) {
           dateRangePredicate =
               builder.lessThanOrEqualTo(
-                  transportCallTransportEventJoin.get(TransportEvent_.DATE_TIME),
+                  transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                   LocalDateTime.parse(filters.endDate, DATE_FORMAT).atOffset(ZoneOffset.UTC));
         }
 

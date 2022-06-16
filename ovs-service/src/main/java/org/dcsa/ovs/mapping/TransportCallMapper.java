@@ -1,10 +1,10 @@
 package org.dcsa.ovs.mapping;
 
-import org.dcsa.ovs.persistence.entity.Address;
-import org.dcsa.ovs.persistence.entity.Facility;
-import org.dcsa.ovs.persistence.entity.Location;
 import org.dcsa.ovs.persistence.entity.TransportCall;
 import org.dcsa.ovs.transferobjects.*;
+import org.dcsa.skernel.domain.persistence.entity.Address;
+import org.dcsa.skernel.domain.persistence.entity.Facility;
+import org.dcsa.skernel.domain.persistence.entity.Location;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -19,7 +19,6 @@ public abstract class TransportCallMapper {
   @Mappings(
       value = {
         @Mapping(target = "portTerminalLocation", source = "transportCall"),
-        @Mapping(target = "transportCallReference", source = "reference"),
         @Mapping(target = "importVoyageNumber", source = "importVoyage.carrierVoyageNumber"),
         @Mapping(target = "exportVoyageNumber", source = "exportVoyage.carrierVoyageNumber"),
         @Mapping(
@@ -47,11 +46,11 @@ public abstract class TransportCallMapper {
 
         portTerminalLocation =
             FacilitySMDGLocationTO.builder()
-                .locationName(location.getName())
-                .UNLocationCode(location.getUnLocationCode())
+                .locationName(location.getLocationName())
+                .UNLocationCode(location.getUNLocationCode())
                 .facilitySMDGCode(
                     Objects.requireNonNullElseGet(location.getFacility(), Facility::new)
-                        .getSmdgCode())
+                        .getFacilitySMDGCode())
                 .build();
 
       } else if (null != location.getAddress()) {
@@ -60,14 +59,14 @@ public abstract class TransportCallMapper {
         AddressTO addressTO = addressMapper.toTO(address);
 
         portTerminalLocation =
-            AddressLocationTO.builder().locationName(location.getName()).address(addressTO).build();
+            AddressLocationTO.builder().locationName(location.getLocationName()).address(addressTO).build();
 
       } else {
 
         portTerminalLocation =
             UNLocationLocationTO.builder()
-                .locationName(location.getName())
-                .UNLocationCode(location.getUnLocationCode())
+                .locationName(location.getLocationName())
+                .UNLocationCode(location.getUNLocationCode())
                 .build();
       }
     }

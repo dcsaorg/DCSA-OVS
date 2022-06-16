@@ -1,10 +1,10 @@
 package org.dcsa.ovs.itests.v3;
 
+import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.dcsa.ovs.itests.config.RestAssuredConfigurator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -21,7 +21,7 @@ public class ServiceScheduleIT {
     // service can contain duplicate carrier_service_code
     String s =
         given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(ContentType.JSON)
             .queryParam("carrierServiceCode", "B_HLC")
             .get("/v3/service-schedules")
             .then()
@@ -47,7 +47,7 @@ public class ServiceScheduleIT {
     // universal_service_reference is unique in service
     String s =
         given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(ContentType.JSON)
             .queryParam("universalServiceReference", "SR00002C")
             .get("/v3/service-schedules")
             .then()
@@ -70,7 +70,7 @@ public class ServiceScheduleIT {
     // vessel_imo_number is unique for a vessel but a service can be linked to multiple vessels
     String s =
         given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(ContentType.JSON)
             .queryParam("vesselIMONumber", "9811000")
             .get("/v3/service-schedules")
             .then()
@@ -97,7 +97,7 @@ public class ServiceScheduleIT {
     // below
     String s =
         given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(ContentType.JSON)
             .queryParam("vesselName", "King of the Seas")
             .get("/v3/service-schedules")
             .then()
@@ -128,7 +128,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterVoyageNumber() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("voyageNumber", "4419W")
         .get("/v3/service-schedules")
         .then()
@@ -151,7 +151,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterUniversalVoyageReference() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("universalVoyageReference", "UVR01")
         .get("/v3/service-schedules")
         .then()
@@ -174,7 +174,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterUnLocationCode() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("UNLocationCode", "JPTYO")
         .get("/v3/service-schedules")
         .then()
@@ -200,7 +200,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterFacilitySMDGCode() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("facilitySMDGCode", "BTP")
         .get("/v3/service-schedules")
         .then()
@@ -229,7 +229,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterStartDateAndEndDate() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("startDate", "2003-05-02") // yyyy-MM-dd
         .queryParam("endDate", "2003-05-04") // yyyy-MM-dd
         .get("/v3/service-schedules")
@@ -256,7 +256,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterUniversalServiceReferenceAndFacilitySMDGCode() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("universalServiceReference", "SR00002C") // yyyy-MM-dd
         .queryParam("facilitySMDGCode", "BTP") // yyyy-MM-dd
         .get("/v3/service-schedules")
@@ -287,7 +287,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterLimit1() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("limit", "1")
         .get("/v3/service-schedules")
         .then()
@@ -302,7 +302,7 @@ public class ServiceScheduleIT {
   @Test
   void testServiceScheduleFilterLimit3() {
     given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .contentType(ContentType.JSON)
         .queryParam("limit", "3")
         .get("/v3/service-schedules")
         .then()

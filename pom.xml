@@ -30,16 +30,14 @@
 		<dcsa.shared-kernel.artifacttype>-SNAPSHOT</dcsa.shared-kernel.artifacttype>
 		<shared-kernel.version>${dcsa.shared-kernel.version}${dcsa.shared-kernel.tag}${dcsa.shared-kernel.artifacttype}</shared-kernel.version>
 		<!-- End: Define Shared kernel version -->
+
+		<hibernate-jpamodelgen.version>5.6.9.Final</hibernate-jpamodelgen.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.dcsa.shared-kernel</groupId>
-			<artifactId>dcsa-shared-kernel-all</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -52,10 +50,10 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency><!-- TODO: Move this to super-pom -->
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.2</version>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-jpamodelgen</artifactId>
+				<version>${hibernate-jpamodelgen.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dcsa.ovs</groupId>
