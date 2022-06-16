@@ -2,6 +2,8 @@ package org.dcsa.ovs.persistence.entity;
 
 import lombok.*;
 import org.dcsa.ovs.persistence.entity.enums.PortCallStatusCode;
+import org.dcsa.skernel.domain.persistence.entity.Facility;
+import org.dcsa.skernel.domain.persistence.entity.Location;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;

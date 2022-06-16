@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.dcsa.ovs.persistence.entity.*;
+import org.dcsa.skernel.domain.persistence.entity.Facility;
+import org.dcsa.skernel.domain.persistence.entity.Location;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Join;
@@ -100,16 +102,16 @@ public class ServiceSpecification {
       if (null != filters.unLocationCode) {
         Predicate unLocationPredicate =
             builder.equal(
-                transportCallLocationJoin.get(Location_.UN_LOCATION_CODE), filters.unLocationCode);
+                transportCallLocationJoin.get("UNLocationCode"), filters.unLocationCode);
         predicates.add(unLocationPredicate);
       }
 
       if (null != filters.facilitySMDGCode) {
         Join<Location, Facility> locationFacilityJoin =
-          transportCallLocationJoin.join(Location_.FACILITY, JoinType.LEFT);
+          transportCallLocationJoin.join("facility", JoinType.LEFT);
         Predicate facilitySMDGCodePredicate =
             builder.equal(
-              locationFacilityJoin.get(Facility_.SMDG_CODE),
+              locationFacilityJoin.get("facilitySMDGCode"),
                 filters.facilitySMDGCode);
         predicates.add(facilitySMDGCodePredicate);
       }
@@ -127,7 +129,7 @@ public class ServiceSpecification {
                 .toFormatter();
 
         Join<TransportCall, TransportEvent> transportCallTransportEventJoin =
-            vesselTransportCallJoin.join(TransportCall_.TIMESTAMPS, JoinType.LEFT);
+            vesselTransportCallJoin.join("timestamps", JoinType.LEFT);
 
         Predicate dateRangePredicate = null;
 
