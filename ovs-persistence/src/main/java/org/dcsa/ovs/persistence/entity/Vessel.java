@@ -1,55 +1,49 @@
 package org.dcsa.ovs.persistence.entity;
 
 import lombok.*;
+import org.dcsa.skernel.domain.persistence.entity.BaseVessel;
+import org.dcsa.skernel.domain.persistence.entity.Carrier;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@Setter(AccessLevel.PRIVATE)
+@Setter
+@Getter
 @Entity
-@Table(name = "vessel")
-public class Vessel {
-  @Id
-  @GeneratedValue
-  @Column(name = "id", nullable = false)
-  private UUID id;
-
-  @Column(name = "vessel_imo_number", length = 7, unique = true)
-  private String vesselIMONumber;
-
-  @Column(name = "vessel_name", length = 35)
-  private String vesselName;
-
-  @Column(name = "vessel_flag", length = 2, columnDefinition = "bpchar")
-  private String vesselFlag;
-
-  @Column(name = "vessel_call_sign", length = 18)
-  private String vesselCallSign;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "vessel_operator_carrier_id")
-  private Carrier vesselOperatorCarrier;
-
-  @Column(name = "is_dummy")
-  private Boolean isDummyVessel;
-
-  @Column(name = "length", columnDefinition = "numeric")
-  private Float vesselLength;
-
-  @Column(name = "width", columnDefinition = "numeric")
-  private Float vesselWidth;
-
-  @Column(name = "dimension_unit", length = 3)
-  private String dimensionUnit;
+public class Vessel extends BaseVessel {
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "vessel")
   private Set<TransportCall> portCalls = new LinkedHashSet<>();
+
+  @Builder(toBuilder = true)
+  public Vessel(
+      UUID id,
+      String vesselIMONumber,
+      String vesselName,
+      String vesselFlag,
+      String vesselCallSign,
+      Carrier vesselOperatorCarrier,
+      Boolean isDummyVessel,
+      Float vesselLength,
+      Float vesselWidth,
+      String dimensionUnit,
+      Set<TransportCall> portCalls) {
+    this.id = id;
+    this.vesselIMONumber = vesselIMONumber;
+    this.vesselName = vesselName;
+    this.vesselFlag = vesselFlag;
+    this.vesselCallSign = vesselCallSign;
+    this.vesselOperatorCarrier = vesselOperatorCarrier;
+    this.isDummyVessel = isDummyVessel;
+    this.vesselLength = vesselLength;
+    this.vesselWidth = vesselWidth;
+    this.dimensionUnit = dimensionUnit;
+    this.portCalls = portCalls;
+  }
 }
