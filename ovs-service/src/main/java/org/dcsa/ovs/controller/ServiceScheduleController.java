@@ -11,17 +11,13 @@ import org.dcsa.skernel.infrastructure.pagination.Paginator;
 import org.dcsa.skernel.infrastructure.validation.ValidVesselIMONumber;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Validated
 @RestController
@@ -72,36 +68,4 @@ public class ServiceScheduleController {
     paginator.setPageHeaders(request, response, cursor, result);
     return result.content();
   }
-
-  // TODO: Move to a handler
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<RequestFailureTO> badRequest(
-      HttpServletRequest httpServletRequest, ConstraintViolationException cvex) {
-
-    String exceptionMessage = null;
-
-    if (null != cvex.getConstraintViolations()) {
-      exceptionMessage =
-          cvex.getConstraintViolations().stream()
-              .filter(Objects::nonNull)
-              .map(
-                  constraintViolation ->
-                      constraintViolation.getPropertyPath()
-                          + " "
-                          + constraintViolation.getMessage())
-              .collect(Collectors.joining(";"));
-    }
-
-    return new ResponseEntity<>(
-        new RequestFailureTO(
-            httpServletRequest.getMethod(),
-            httpServletRequest.getRequestURI(),
-            List.of(new ConcreteRequestErrorMessageTO("invalidInput", exceptionMessage))),
-        HttpStatus.BAD_REQUEST);
-  }
-
-  record RequestFailureTO(
-      String httpMethod, String requestUri, List<ConcreteRequestErrorMessageTO> errors) {}
-
-  record ConcreteRequestErrorMessageTO(String reason, String message) {}
 }
