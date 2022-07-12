@@ -9,13 +9,13 @@ import java.util.Set;
 import java.util.UUID;
 
 @NamedEntityGraph(
-    name = "graph.vessels",
-    attributeNodes = {@NamedAttributeNode(value = "vessels", subgraph = "subgraph.portcalls")},
+    name = "graph.vesselSchedules",
+    attributeNodes = {@NamedAttributeNode(value = "vesselSchedules", subgraph = "subgraph.transportCalls")},
     subgraphs = {
       @NamedSubgraph(
-          name = "subgraph.portcalls",
+          name = "subgraph.transportCalls",
           attributeNodes = {
-            @NamedAttributeNode(value = "portCalls", subgraph = "subgraph.timestamps")
+            @NamedAttributeNode(value = "transportCalls", subgraph = "subgraph.timestamps")
           }),
       @NamedSubgraph(
           name = "subgraph.timestamps",
@@ -57,5 +57,5 @@ public class Service {
       name = "vessel_schedule",
       joinColumns = @JoinColumn(name = "service_id"),
       inverseJoinColumns = @JoinColumn(name = "vessel_id"))
-  private Set<Vessel> vessels = new LinkedHashSet<>();
+  private Set<Vessel> vesselSchedules = new LinkedHashSet<>();
 }

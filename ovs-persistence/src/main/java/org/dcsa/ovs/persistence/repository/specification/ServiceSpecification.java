@@ -38,9 +38,9 @@ public class ServiceSpecification {
   public static Specification<Service> withFilters(final ServiceSchedulesFilters filters) {
 
     return (root, query, builder) -> {
-      Join<Service, Vessel> serviceVesselJoin = root.join(Service_.VESSELS, JoinType.LEFT);
+      Join<Service, Vessel> serviceVesselJoin = root.join(Service_.VESSEL_SCHEDULES, JoinType.LEFT);
       Join<Vessel, TransportCall> vesselTransportCallJoin =
-          serviceVesselJoin.join(Vessel_.PORT_CALLS, JoinType.LEFT);
+          serviceVesselJoin.join(Vessel_.TRANSPORT_CALLS, JoinType.LEFT);
       Join<TransportCall, Voyage> transportCallImportVoyageJoin =
           vesselTransportCallJoin.join(TransportCall_.IMPORT_VOYAGE, JoinType.LEFT);
       Join<TransportCall, Voyage> transportCallExportVoyageJoin =

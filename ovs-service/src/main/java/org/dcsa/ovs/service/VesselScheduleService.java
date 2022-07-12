@@ -2,10 +2,10 @@ package org.dcsa.ovs.service;
 
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.dcsa.ovs.mapping.ServiceMapper;
+import org.dcsa.ovs.mapping.ServiceScheduleMapper;
 import org.dcsa.ovs.persistence.repository.ServiceRepository;
 import org.dcsa.ovs.persistence.repository.specification.ServiceSpecification;
-import org.dcsa.ovs.transferobjects.VesselScheduleTO;
+import org.dcsa.ovs.transferobjects.ServiceScheduleTO;
 import org.dcsa.skernel.infrastructure.pagination.Cursor;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class VesselScheduleService {
 
   private final ServiceRepository serviceRepository;
 
-  private final ServiceMapper serviceMapper;
+  private final ServiceScheduleMapper serviceScheduleMapper;
 
   @Builder
   public static class ServiceSchedulesFilters {
@@ -37,11 +37,11 @@ public class VesselScheduleService {
     String apiVersion;
   }
 
-  public PagedResult<VesselScheduleTO> findAll(Cursor cursor, final ServiceSchedulesFilters requestFilters) {
+  public PagedResult<ServiceScheduleTO> findAll(
+      Cursor cursor, final ServiceSchedulesFilters requestFilters) {
 
     return new PagedResult<>(
-      serviceRepository
-        .findAll(
+        serviceRepository.findAll(
             withFilters(
                 ServiceSpecification.ServiceSchedulesFilters.builder()
                     .carrierServiceCode(requestFilters.carrierServiceCode)
@@ -56,6 +56,6 @@ public class VesselScheduleService {
                     .endDate(requestFilters.endDate)
                     .build()),
             cursor.toPageRequest()),
-      serviceMapper::toTO);
+        serviceScheduleMapper::toTO);
   }
 }

@@ -3,7 +3,7 @@ package org.dcsa.ovs.controller;
 import lombok.RequiredArgsConstructor;
 import org.dcsa.ovs.persistence.entity.Service_;
 import org.dcsa.ovs.service.VesselScheduleService;
-import org.dcsa.ovs.transferobjects.VesselScheduleTO;
+import org.dcsa.ovs.transferobjects.ServiceScheduleTO;
 import org.dcsa.skernel.infrastructure.pagination.Cursor;
 import org.dcsa.skernel.infrastructure.pagination.CursorDefaults;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
@@ -12,7 +12,10 @@ import org.dcsa.skernel.infrastructure.validation.ValidVesselIMONumber;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +32,7 @@ public class ServiceScheduleController {
 
   @GetMapping(path = "/service-schedules")
   @ResponseStatus(HttpStatus.OK)
-  public List<VesselScheduleTO> findAll(
+  public List<ServiceScheduleTO> findAll(
     @Size(max = 5) @RequestParam(required = false) String carrierServiceCode,
     @Size(max = 8) @RequestParam(required = false) String universalServiceReference,
     @ValidVesselIMONumber(allowNull = true) @RequestParam(required = false) String vesselIMONumber,
@@ -49,7 +52,7 @@ public class ServiceScheduleController {
         request,
         new CursorDefaults(limit, Sort.Direction.DESC, Service_.CARRIER_SERVICE_CODE));
 
-    PagedResult<VesselScheduleTO> result = vesselScheduleService.findAll(
+    PagedResult<ServiceScheduleTO> result = vesselScheduleService.findAll(
       cursor,
       VesselScheduleService.ServiceSchedulesFilters.builder()
         .carrierServiceCode(carrierServiceCode)

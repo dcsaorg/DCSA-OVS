@@ -16,6 +16,6 @@ import java.util.UUID;
 public interface ServiceRepository
     extends JpaRepository<Service, UUID>, JpaSpecificationExecutor<Service> {
   @Override
-  @EntityGraph(value = "graph.vessels")
+  @EntityGraph(value = "graph.vesselSchedules")
   Page<Service> findAll(Specification<Service> spec, @NonNull Pageable pageable);
 }

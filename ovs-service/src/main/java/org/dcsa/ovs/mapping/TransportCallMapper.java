@@ -28,7 +28,7 @@ public abstract class TransportCallMapper {
             target = "exportUniversalVoyageReference",
             source = "exportVoyage.universalVoyageReference")
       })
-  public abstract PortCallTO toTO(TransportCall transportCall);
+  public abstract TransportCallTO toTO(TransportCall transportCall);
 
   // decide return data based on nullable fields
   PortTerminalLocation mapPortTerminalLocation(TransportCall transportCall) {
