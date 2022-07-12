@@ -8,8 +8,8 @@ import java.util.List;
 public record TransportCallTO(
   String portVisitReference,
   String transportCallReference,
-  String importVoyageNumber,
-  String exportVoyageNumber,
+  String carrierImportVoyageNumber,
+  String carrierExportVoyageNumber,
   String importUniversalVoyageReference,
   String exportUniversalVoyageReference,
   PortTerminalLocation portTerminalLocation,

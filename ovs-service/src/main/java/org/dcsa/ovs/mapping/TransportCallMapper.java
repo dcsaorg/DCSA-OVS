@@ -19,8 +19,8 @@ public abstract class TransportCallMapper {
   @Mappings(
       value = {
         @Mapping(target = "portTerminalLocation", source = "transportCall"),
-        @Mapping(target = "importVoyageNumber", source = "importVoyage.carrierVoyageNumber"),
-        @Mapping(target = "exportVoyageNumber", source = "exportVoyage.carrierVoyageNumber"),
+        @Mapping(target = "carrierImportVoyageNumber", source = "importVoyage.carrierVoyageNumber"),
+        @Mapping(target = "carrierExportVoyageNumber", source = "exportVoyage.carrierVoyageNumber"),
         @Mapping(
             target = "importUniversalVoyageReference",
             source = "importVoyage.universalVoyageReference"),
