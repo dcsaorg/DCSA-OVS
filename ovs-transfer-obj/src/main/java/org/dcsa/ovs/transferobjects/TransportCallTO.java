@@ -10,10 +10,10 @@ public record TransportCallTO(
   String transportCallReference,
   String carrierImportVoyageNumber,
   String carrierExportVoyageNumber,
-  String importUniversalVoyageReference,
-  String exportUniversalVoyageReference,
-  PortTerminalLocation portTerminalLocation,
-  PortCallStatusCode portCallStatusCode,
+  String universalImportVoyageReference,
+  String universalExportVoyageReference,
+  PortTerminalLocation location,
+  PortCallStatusCode statusCode,
   List<TimestampTO> timestamps
 ) {
   @Builder(toBuilder = true) // workaround for intellij issue

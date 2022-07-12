@@ -156,7 +156,7 @@ public class ServiceScheduleIT {
         .body("[0].vesselSchedules[0].vesselOperatorSMDGLinerCode", equalTo("EMC"))
         .body("[0].vesselSchedules[0].vesselName", equalTo("Ever Given"))
         .body(
-            "[0].vesselSchedules[0].transportCalls[0].importUniversalVoyageReference",
+            "[0].vesselSchedules[0].transportCalls[0].universalImportVoyageReference",
             equalTo("UVR01"))
         .extract()
         .body()
@@ -181,17 +181,13 @@ public class ServiceScheduleIT {
         .body("[0].vesselSchedules[0].vesselOperatorSMDGLinerCode", equalTo("EMC"))
         .body("[0].vesselSchedules[0].vesselName", equalTo("Ever Given"))
         .body(
-            "[0].vesselSchedules[0].transportCalls[0].importUniversalVoyageReference",
+            "[0].vesselSchedules[0].transportCalls[0].universalImportVoyageReference",
             equalTo("UVR01"))
         .body(
-            "[0].vesselSchedules[0].transportCalls[0].exportUniversalVoyageReference",
+            "[0].vesselSchedules[0].transportCalls[0].universalExportVoyageReference",
             equalTo("UVR02"))
-        .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.UNLocationCode",
-            equalTo("JPTYO"))
-        .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.locationName",
-            equalTo("Tokyo"))
+        .body("[0].vesselSchedules[0].transportCalls[0].location.UNLocationCode", equalTo("JPTYO"))
+        .body("[0].vesselSchedules[0].transportCalls[0].location.locationName", equalTo("Tokyo"))
         .extract()
         .body()
         .asString();
@@ -220,15 +216,11 @@ public class ServiceScheduleIT {
         .body(
             "[0].vesselSchedules[0].transportCalls[0].carrierExportVoyageNumber",
             equalTo("A_carrier_voyage_number"))
+        .body("[0].vesselSchedules[0].transportCalls[0].location.UNLocationCode", equalTo("BRRIO"))
         .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.UNLocationCode",
-            equalTo("BRRIO"))
-        .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.locationName",
+            "[0].vesselSchedules[0].transportCalls[0].location.locationName",
             equalTo("Rio de Janeiro"))
-        .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.facilitySMDGCode",
-            equalTo("BTP"))
+        .body("[0].vesselSchedules[0].transportCalls[0].location.facilitySMDGCode", equalTo("BTP"))
         .extract()
         .body()
         .asString();
@@ -291,15 +283,11 @@ public class ServiceScheduleIT {
         .body(
             "[0].vesselSchedules[0].transportCalls[0].carrierExportVoyageNumber",
             equalTo("A_carrier_voyage_number"))
+        .body("[0].vesselSchedules[0].transportCalls[0].location.UNLocationCode", equalTo("BRRIO"))
         .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.UNLocationCode",
-            equalTo("BRRIO"))
-        .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.locationName",
+            "[0].vesselSchedules[0].transportCalls[0].location.locationName",
             equalTo("Rio de Janeiro"))
-        .body(
-            "[0].vesselSchedules[0].transportCalls[0].portTerminalLocation.facilitySMDGCode",
-            equalTo("BTP"))
+        .body("[0].vesselSchedules[0].transportCalls[0].location.facilitySMDGCode", equalTo("BTP"))
         .extract()
         .body()
         .asString();

@@ -18,15 +18,16 @@ import java.util.Objects;
 public abstract class TransportCallMapper {
   @Mappings(
       value = {
-        @Mapping(target = "portTerminalLocation", source = "transportCall"),
+        @Mapping(target = "location", source = "transportCall"),
         @Mapping(target = "carrierImportVoyageNumber", source = "importVoyage.carrierVoyageNumber"),
         @Mapping(target = "carrierExportVoyageNumber", source = "exportVoyage.carrierVoyageNumber"),
         @Mapping(
-            target = "importUniversalVoyageReference",
+            target = "universalImportVoyageReference",
             source = "importVoyage.universalVoyageReference"),
         @Mapping(
-            target = "exportUniversalVoyageReference",
-            source = "exportVoyage.universalVoyageReference")
+            target = "universalExportVoyageReference",
+            source = "exportVoyage.universalVoyageReference"),
+        @Mapping(target = "statusCode", source = "portCallStatusCode")
       })
   public abstract TransportCallTO toTO(TransportCall transportCall);
 
@@ -59,7 +60,10 @@ public abstract class TransportCallMapper {
         AddressTO addressTO = addressMapper.toTO(address);
 
         portTerminalLocation =
-            AddressLocationTO.builder().locationName(location.getLocationName()).address(addressTO).build();
+            AddressLocationTO.builder()
+                .locationName(location.getLocationName())
+                .address(addressTO)
+                .build();
 
       } else {
 

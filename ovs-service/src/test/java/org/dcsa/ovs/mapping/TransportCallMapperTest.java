@@ -13,13 +13,14 @@ public class TransportCallMapperTest {
         TransportCallTO.class,
         // Special mappings
         "portVisitReference",
-        "portTerminalLocation",
+        "location",
         "transportCall",
         "importVoyageNumber",
         "carrierImportVoyageNumber",
         "carrierExportVoyageNumber",
         "exportVoyage",
-        "importUniversalVoyageReference",
-        "exportUniversalVoyageReference");
+        "statusCode",
+        "universalImportVoyageReference",
+        "universalExportVoyageReference");
   }
 }
