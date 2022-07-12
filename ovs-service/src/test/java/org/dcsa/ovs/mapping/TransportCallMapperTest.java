@@ -16,8 +16,8 @@ public class TransportCallMapperTest {
         "portTerminalLocation",
         "transportCall",
         "importVoyageNumber",
-        "importVoyage",
-        "exportVoyageNumber",
+        "carrierImportVoyageNumber",
+        "carrierExportVoyageNumber",
         "exportVoyage",
         "importUniversalVoyageReference",
         "exportUniversalVoyageReference");
