@@ -51,5 +51,5 @@ public class Vessel {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "vessel")
-  private Set<TransportCall> portCalls = new LinkedHashSet<>();
+  private Set<TransportCall> transportCalls = new LinkedHashSet<>();
 }

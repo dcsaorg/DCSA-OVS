@@ -7,7 +7,7 @@ public record AddressTO(
   String street,
   String streetNumber,
   String floor,
-  String postalCode,
+  String postCode,
   String city,
   String stateRegion,
   String country

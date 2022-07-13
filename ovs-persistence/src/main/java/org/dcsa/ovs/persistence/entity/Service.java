@@ -10,12 +10,14 @@ import java.util.UUID;
 
 @NamedEntityGraph(
     name = "graph.vessels",
-    attributeNodes = {@NamedAttributeNode(value = "vessels", subgraph = "subgraph.portcalls")},
+    attributeNodes = {
+      @NamedAttributeNode(value = "vessels", subgraph = "subgraph.transportCalls")
+    },
     subgraphs = {
       @NamedSubgraph(
-          name = "subgraph.portcalls",
+          name = "subgraph.transportCalls",
           attributeNodes = {
-            @NamedAttributeNode(value = "portCalls", subgraph = "subgraph.timestamps")
+            @NamedAttributeNode(value = "transportCalls", subgraph = "subgraph.timestamps")
           }),
       @NamedSubgraph(
           name = "subgraph.timestamps",
