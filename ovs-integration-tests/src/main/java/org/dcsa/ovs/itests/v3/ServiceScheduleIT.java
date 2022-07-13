@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.dcsa.ovs.itests.config.TestConfig.jsonSchemaValidator;
+import static org.dcsa.ovs.itests.config.SchemaValidatorConfig.jsonSchemaValidator;
 import static org.hamcrest.Matchers.*;
 
 public class ServiceScheduleIT {

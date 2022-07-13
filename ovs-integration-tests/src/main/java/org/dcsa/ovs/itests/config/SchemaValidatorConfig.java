@@ -7,7 +7,7 @@ import org.hamcrest.Matcher;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
-public class TestConfig {
+public class SchemaValidatorConfig {
   public static Matcher<?> jsonSchemaValidator(String fileName) {
     return matchesJsonSchemaInClasspath("schema/" + fileName + ".json")
         .using(

@@ -5,7 +5,7 @@ import org.dcsa.ovs.transferobjects.VesselScheduleTO;
 import org.dcsa.skernel.test.helpers.FieldValidator;
 import org.junit.jupiter.api.Test;
 
-public class VesselMapperTest {
+public class VesselScheduleMapperTest {
   @Test
   public void testFieldsAreEqual() {
     FieldValidator.assertFieldsAreEqual(

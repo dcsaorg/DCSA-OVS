@@ -9,8 +9,10 @@ import java.util.Set;
 import java.util.UUID;
 
 @NamedEntityGraph(
-    name = "graph.vesselSchedules",
-    attributeNodes = {@NamedAttributeNode(value = "vesselSchedules", subgraph = "subgraph.transportCalls")},
+    name = "graph.vessels",
+    attributeNodes = {
+      @NamedAttributeNode(value = "vessels", subgraph = "subgraph.transportCalls")
+    },
     subgraphs = {
       @NamedSubgraph(
           name = "subgraph.transportCalls",
@@ -57,5 +59,5 @@ public class Service {
       name = "vessel_schedule",
       joinColumns = @JoinColumn(name = "service_id"),
       inverseJoinColumns = @JoinColumn(name = "vessel_id"))
-  private Set<Vessel> vesselSchedules = new LinkedHashSet<>();
+  private Set<Vessel> vessels = new LinkedHashSet<>();
 }
