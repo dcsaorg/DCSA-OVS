@@ -59,6 +59,9 @@ public class TransportCall {
   @Column(name = "port_call_status_code", length = 4, columnDefinition = "bpchar")
   private PortCallStatusCode portCallStatusCode;
 
+  @Column(name="port_visit_reference", length=50)
+  private String portVisitReference;
+
   @EqualsAndHashCode.Exclude
   @OneToMany
   @JoinColumn(name="transport_call_id")
