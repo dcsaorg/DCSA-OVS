@@ -32,7 +32,7 @@ public class TransportEvent {
   @Column(name = "transport_event_type_code", length = 4, nullable = false)
   private String transportEventTypeCode;
 
-  @Column(name = "delay_reason_code", length = 4)
+  @Column(name = "delay_reason_code", length = 3)
   private String delayReasonCode;
 
   @Column(name = "change_remark", length = 250)
