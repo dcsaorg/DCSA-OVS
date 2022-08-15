@@ -36,6 +36,8 @@ public class Service {
   @Column(name = "id", nullable = false)
   private UUID id;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "carrier_id")
   private Carrier carrier;
@@ -46,6 +48,8 @@ public class Service {
   @Column(name = "carrier_service_name", length = 50)
   private String carrierServiceName;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "tradelane_id")
   private Tradelane tradelane;
@@ -53,6 +57,7 @@ public class Service {
   @Column(name = "universal_service_reference", length = 8)
   private String universalServiceReference;
 
+  @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @OneToMany
   @JoinTable(
