@@ -1,5 +1,6 @@
 package org.dcsa.ovs.controller;
 
+import org.dcsa.ovs.datafactories.ServiceScheduleTODataFactory;
 import org.dcsa.ovs.mapping.ServiceScheduleMapper;
 import org.dcsa.ovs.service.VesselScheduleService;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
@@ -11,8 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Collections;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,15 +35,14 @@ class ServiceScheduleControllerTest {
   @DisplayName("GET service scheduler should return 200 for given basic valid call")
   void testGetServiceSchedulerReturns200ForGivenBasicCall() throws Exception {
     when(vesselScheduleService.findAll(any(), any()))
-        .thenReturn(new PagedResult(1, Collections.emptyList()));
+        .thenReturn(new PagedResult(1, ServiceScheduleTODataFactory.serviceScheduleTOList()));
     this.mockMvc
         .perform(get("/service-schedules").accept(MediaType.APPLICATION_JSON_VALUE))
         .andDo(print())
         .andExpect(status().isOk())
-        .andReturn()
-        .getResponse()
-        .getContentAsString()
-        .equals("[]");
+        .andExpect(jsonPath("$.[0].carrierServiceName").value("A_carrier_service_name"))
+        .andExpect(jsonPath("$.[0].carrierServiceCode").value("A_CSC"))
+        .andExpect(jsonPath("$.[0].universalServiceReference").value("SR0001D"));
   }
 
   @Test
