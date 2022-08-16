@@ -32,6 +32,8 @@ public class Vessel {
   @Column(name = "vessel_call_sign", length = 18)
   private String vesselCallSign;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "vessel_operator_carrier_id")
   private Carrier vesselOperatorCarrier;

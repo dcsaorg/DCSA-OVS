@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +32,8 @@ public class Tradelane {
   @Column(name = "tradelane_name", length = 150, nullable = false)
   private String tradelaneName;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "vessel_sharing_agreement_id", nullable = false)
   private VesselSharingAgreement vesselSharingAgreement;

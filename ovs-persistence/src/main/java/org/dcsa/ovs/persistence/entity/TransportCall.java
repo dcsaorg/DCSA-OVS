@@ -29,6 +29,8 @@ public class TransportCall {
   @Column(name = "transport_call_sequence_number")
   private Integer transportCallSequenceNumber;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "facility_id")
   private Facility facility;
@@ -36,6 +38,8 @@ public class TransportCall {
   @Column(name = "facility_type_code", length = 4, columnDefinition = "bpchar")
   private String facilityTypeCode;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "location_id")
   private Location location;
@@ -43,14 +47,20 @@ public class TransportCall {
   @Column(name = "mode_of_transport_code", length = 3)
   private String modeOfTransportCode;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "vessel_id")
   private Vessel vessel;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "import_voyage_id")
   private Voyage importVoyage;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "export_voyage_id")
   private Voyage exportVoyage;
@@ -62,6 +72,7 @@ public class TransportCall {
   @Column(name="port_visit_reference", length=50)
   private String portVisitReference;
 
+  @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @OneToMany
   @JoinColumn(name="transport_call_id")
