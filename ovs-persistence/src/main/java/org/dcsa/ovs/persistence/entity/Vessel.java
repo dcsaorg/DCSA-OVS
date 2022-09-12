@@ -41,7 +41,7 @@ public class Vessel {
   @Column(name = "is_dummy")
   private Boolean isDummyVessel;
 
-  @Column(name = "length", columnDefinition = "numeric")
+  @Column(name = "length_overall", columnDefinition = "numeric")
   private Float vesselLength;
 
   @Column(name = "width", columnDefinition = "numeric")
