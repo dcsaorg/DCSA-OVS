@@ -3,13 +3,16 @@ package org.dcsa.ovs.controller;
 import org.dcsa.ovs.datafactories.ServiceScheduleTODataFactory;
 import org.dcsa.ovs.mapping.ServiceScheduleMapper;
 import org.dcsa.ovs.service.VesselScheduleService;
+import org.dcsa.skernel.errors.infrastructure.*;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
+import org.dcsa.skernel.infrastructure.pagination.Paginator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,6 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("Test for service scheduler endpoint")
 @WebMvcTest(controllers = {ServiceScheduleController.class})
+@Import({
+  Paginator.class,
+  SpringExceptionHandler.class,
+  ConcreteRequestErrorMessageExceptionHandler.class,
+  FallbackExceptionHandler.class,
+  JavaxValidationExceptionHandler.class,
+  MethodNotSupposedExceptionHandler.class
+})
 class ServiceScheduleControllerTest {
 
   @Autowired MockMvc mockMvc;
