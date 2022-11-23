@@ -5,6 +5,8 @@ import org.dcsa.ovs.transferobjects.*;
 import org.dcsa.skernel.domain.persistence.entity.Address;
 import org.dcsa.skernel.domain.persistence.entity.Facility;
 import org.dcsa.skernel.domain.persistence.entity.Location;
+import org.dcsa.skernel.infrastructure.services.mapping.AddressMapper;
+import org.dcsa.skernel.infrastructure.transferobject.AddressTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -57,7 +59,7 @@ public abstract class TransportCallMapper {
       } else if (null != location.getAddress()) {
 
         Address address = location.getAddress();
-        AddressTO addressTO = addressMapper.toTO(address);
+        AddressTO addressTO = addressMapper.toDTO(address);
 
         portTerminalLocation =
             AddressLocationTO.builder()

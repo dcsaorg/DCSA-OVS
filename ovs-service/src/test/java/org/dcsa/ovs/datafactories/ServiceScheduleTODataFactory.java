@@ -2,6 +2,7 @@ package org.dcsa.ovs.datafactories;
 
 import lombok.experimental.UtilityClass;
 import org.dcsa.ovs.transferobjects.*;
+import org.dcsa.skernel.infrastructure.transferobject.AddressTO;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
