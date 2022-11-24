@@ -31,8 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
   SpringExceptionHandler.class,
   ConcreteRequestErrorMessageExceptionHandler.class,
   FallbackExceptionHandler.class,
-  JavaxValidationExceptionHandler.class,
-  MethodNotSupposedExceptionHandler.class
+  JavaxValidationExceptionHandler.class
 })
 class ServiceScheduleControllerTest {
 
