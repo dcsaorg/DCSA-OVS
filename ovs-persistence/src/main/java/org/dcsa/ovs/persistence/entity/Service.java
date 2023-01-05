@@ -1,9 +1,9 @@
 package org.dcsa.ovs.persistence.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.dcsa.skernel.domain.persistence.entity.Carrier;
 
-import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;

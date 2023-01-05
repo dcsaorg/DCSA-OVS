@@ -3,7 +3,10 @@ package org.dcsa.ovs.controller;
 import org.dcsa.ovs.datafactories.ServiceScheduleTODataFactory;
 import org.dcsa.ovs.mapping.ServiceScheduleMapper;
 import org.dcsa.ovs.service.VesselScheduleService;
-import org.dcsa.skernel.errors.infrastructure.*;
+import org.dcsa.skernel.errors.infrastructure.ConcreteRequestErrorMessageExceptionHandler;
+import org.dcsa.skernel.errors.infrastructure.FallbackExceptionHandler;
+import org.dcsa.skernel.errors.infrastructure.JakartaValidationExceptionHandler;
+import org.dcsa.skernel.errors.infrastructure.SpringExceptionHandler;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
 import org.dcsa.skernel.infrastructure.pagination.Paginator;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
   SpringExceptionHandler.class,
   ConcreteRequestErrorMessageExceptionHandler.class,
   FallbackExceptionHandler.class,
-  JavaxValidationExceptionHandler.class
+  JakartaValidationExceptionHandler.class
 })
 class ServiceScheduleControllerTest {
 

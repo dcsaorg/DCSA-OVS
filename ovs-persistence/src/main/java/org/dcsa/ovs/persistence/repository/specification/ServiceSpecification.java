@@ -8,9 +8,9 @@ import org.dcsa.skernel.domain.persistence.entity.Facility;
 import org.dcsa.skernel.domain.persistence.entity.Location;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
