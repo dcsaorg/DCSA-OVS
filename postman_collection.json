@@ -1,0 +1,603 @@
+{
+	"info": {
+		"_postman_id": "0e28a5e5-ddac-465b-8f92-44f3bb1970ea",
+		"name": "DCSA-OVS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16570202"
+	},
+	"item": [
+		{
+			"name": "GET service schedules",
+			"item": [
+				{
+					"name": "Positive test cases",
+					"item": [
+						{
+							"name": "Get All",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By CarrierServiceCode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter carrierServiceCode\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    pm.expect(item.carrierServiceCode).to.equal(\"B_HLC\");\r",
+											"  });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?carrierServiceCode=B_HLC",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "carrierServiceCode",
+											"value": "B_HLC"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By UniversalServiceReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter universalServiceReference\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    pm.expect(item.universalServiceReference).to.equal(\"SR00002B\");\r",
+											"  });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?universalServiceReference=SR00002B",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "universalServiceReference",
+											"value": "SR00002B"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By VesselIMONumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter vesselIMONumber\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"        pm.expect(item.vesselIMONumber).to.equal(\"9811000\")\r",
+											"    })\r",
+											"  });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?vesselIMONumber=9811000",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "vesselIMONumber",
+											"value": "9811000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By VesselName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter vesselName\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"        pm.expect(item.vesselName).to.equal(\"King of the Seas\")\r",
+											"    })\r",
+											"  });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?vesselName=King of the Seas",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "vesselName",
+											"value": "King of the Seas"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By VoyageNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter voyageNumber\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"      _.each(item.transportCalls, (item) => {\r",
+											"        pm.expect(item.carrierImportVoyageNumber).to.equal(\"4419W\");\r",
+											"      });\r",
+											"    });\r",
+											"  });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?voyageNumber=4419W",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "voyageNumber",
+											"value": "4419W"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By UniversalVoyageReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter universalVoyageReference\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"      _.each(item.transportCalls, (item) => {\r",
+											"        pm.expect(item.universalImportVoyageReference).to.equal(\"657AS\");\r",
+											"      });\r",
+											"    });\r",
+											"  });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?universalVoyageReference=657AS",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "universalVoyageReference",
+											"value": "657AS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By UNLocationCode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter UNLocationCode\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"      _.each(item.transportCalls, (item) => {\r",
+											"        pm.expect(item.location.UNLocationCode).to.equal(\"JPTYO\");\r",
+											"      });\r",
+											"    });\r",
+											"  });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?UNLocationCode=JPTYO",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "UNLocationCode",
+											"value": "JPTYO"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By FacilitySMDGCode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter facilitySMDGCode\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"      _.each(item.transportCalls, (item) => {\r",
+											"        pm.expect(item.location.facilitySMDGCode).to.equal(\"BTP\");\r",
+											"      });\r",
+											"    });\r",
+											"  });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?facilitySMDGCode=BTP",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "facilitySMDGCode",
+											"value": "BTP"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By startDate & endDate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var from = new Date(pm.request.url.query.toObject().startDate);\r",
+											"var to = new Date(pm.request.url.query.toObject().endDate);\r",
+											"pm.test(\"All response body matches query parameter date range\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"      _.each(item.transportCalls, (item) => {\r",
+											"        _.each(item.timestamps, (item) => {\r",
+											"          const date = new Date(item.eventDateTime);\r",
+											"          if (from <= date && date <= to) {\r",
+											"          } else {\r",
+											"            console.log(\"Date is not in Range\");\r",
+											"            pm.expect.fail(\"Dates not in Range\");\r",
+											"          }\r",
+											"        });\r",
+											"      });\r",
+											"    });\r",
+											"  });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?startDate=2003-05-02&endDate=2003-05-04",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2003-05-02"
+										},
+										{
+											"key": "endDate",
+											"value": "2003-05-04"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By Combo: UniversalServiceReference & FacilitySMDGCode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"All response body matches query parameter universalServiceReference & facilitySMDGCode\", () => {\r",
+											"  const jsonData = pm.response.json();\r",
+											"  jsonData.map((item) => {\r",
+											"      pm.expect(item.universalServiceReference).to.equal(\"SR00002B\")\r",
+											"    _.each(item.vesselSchedules, (item) => {\r",
+											"      _.each(item.transportCalls, (item) => {\r",
+											"        pm.expect(item.location.facilitySMDGCode).to.equal(\"BTP\");\r",
+											"      });\r",
+											"    });\r",
+											"  });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?facilitySMDGCode=BTP&universalServiceReference=SR00002B",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "facilitySMDGCode",
+											"value": "BTP"
+										},
+										{
+											"key": "universalServiceReference",
+											"value": "SR00002B"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By Limit 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Limit is respected\", () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.length).to.eql(3);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/service-schedules?limit=3",
+									"host": [
+										"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+									],
+									"path": [
+										"service-schedules"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const schema = pm.collectionVariables.get(\"OVS_SERVICE_SCHEDULE_SCHEMA\");",
+									"const schemaObject = JSON.parse(schema);",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"    pm.response.to.have.jsonSchema(schemaObject);",
+									"});",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"API-Version is present\", () => {",
+					"    pm.response.to.have.header(\"API-Version\");",
+					"});",
+					"",
+					"pm.test(\"API-Version header is set correctly\", () => {",
+					"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"OVS_SPEC_VERSION\"));",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:9090",
+			"type": "string"
+		},
+		{
+			"key": "OVS_SPEC_VERSION",
+			"value": "3.0.0",
+			"type": "string"
+		},
+		{
+			"key": "OVS_CONTEXT_PATH",
+			"value": "/v3",
+			"type": "string"
+		},
+		{
+			"key": "OVS_SERVICE_SCHEDULE_SCHEMA",
+			"value": "{\n\"type\": \"array\",\n\"items\": {\n  \"required\": [\n    \"carrierServiceName\"\n  ],\n  \"type\": \"object\",\n  \"properties\": {\n    \"carrierServiceName\": {\n      \"maxLength\": 50,\n      \"type\": \"string\",\n      \"description\": \"The name of the service \\n\"\n    },\n    \"carrierServiceCode\": {\n      \"maxLength\": 5,\n      \"type\": \"string\",\n      \"description\": \"The Carrier specific code of the service for which the schedule details are published.\\n\"\n    },\n    \"universalServiceReference\": {\n      \"maxLength\": 8,\n      \"pattern\": \"SR\\\\d{5}[A-Z]\",\n      \"type\": \"string\",\n      \"description\": \"A global unique service reference, as per DCSA standard, agreed by VSA partners for the service. The service reference must match the regular expression pattern: `SR\\\\d{5}[A-Z]`. The letters `SR` followed by `5 digits`, followed by a checksum-character as a capital letter from `A to Z`.\\n\"\n    },\n    \"vesselSchedules\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"required\": [\n          \"isDummyVessel\"\n        ],\n        \"type\": \"object\",\n        \"properties\": {\n          \"vesselOperatorSMDGLinerCode\": {\n            \"maxLength\": 10,\n            \"type\": \"string\",\n            \"description\": \"The carrier who is in charge of the vessel operation based on the SMDG code\\n\"\n          },\n          \"vesselIMONumber\": {\n            \"maxLength\": 7,\n            \"type\": \"string\",\n            \"description\": \"The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd&apos;s register code, which does not change during the lifetime of the vessel\\n\"\n          },\n          \"vesselName\": {\n            \"maxLength\": 35,\n            \"type\": \"string\",\n            \"description\": \"The name of the Vessel given by the Vessel Operator and registered with IMO.\\n\"\n          },\n          \"vesselCallSign\": {\n            \"maxLength\": 10,\n            \"type\": \"string\",\n            \"description\": \"A unique alphanumeric identity that belongs to the vessel and is assigned by the International Telecommunication Union (ITU). It consists of a threeletter alphanumeric prefix that indicates nationality, followed by one to four characters to identify the individual vessel. For instance, vessels registered under Denmark are assigned the prefix ranges 5PA-5QZ, OUAOZZ, and XPA-XPZ. The Call Sign changes whenever a vessel changes its flag.\\n\"\n          },\n          \"isDummyVessel\": {\n            \"type\": \"boolean\",\n            \"description\": \"Is this a dummy vessel. In case no vessel has been asigned yet - this property can be set to `true` indicating that the vesselIMONumber does not exist.\\n\"\n          },\n          \"transportCalls\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"required\": [\n                \"carrierImportVoyageNumber\",\n                \"transportCallReference\"\n              ],\n              \"type\": \"object\",\n              \"description\": \"A transportCall in the schedule. A transportCall can be either just a Port or further specified as a terminalCall.\\n\\nThe order of the list is the sequence of the list\\n\",\n              \"properties\": {\n                \"portVisitReference\": {\n                  \"maxLength\": 50,\n                  \"type\": \"string\",\n                  \"description\": \"The unique reference that can be used to link different `transportCallReferences` to the same port visit. The reference is provided by the port to uniquely identify a port call\\n\"\n                },\n                \"transportCallReference\": {\n                  \"maxLength\": 100,\n                  \"type\": \"string\",\n                  \"description\": \"A carrier definied reference to a TransportCall.\\n\\nIn the case the Means of Transport is a `Vessel` and the facility is a `Port`/`Terminal` - this reference should be considered a **Terminal Call Reference**\\n\"\n                },\n                \"carrierImportVoyageNumber\": {\n                  \"maxLength\": 50,\n                  \"type\": \"string\",\n                  \"description\": \"The identifier of an import voyage. The vessel operator-specific identifier of the import Voyage.\\n\"\n                },\n                \"carrierExportVoyageNumber\": {\n                  \"maxLength\": 50,\n                  \"type\": \"string\",\n                  \"description\": \"The identifier of an export voyage. The vessel operator-specific identifier of the export Voyage.\\n\"\n                },\n                \"universalImportVoyageReference\": {\n                  \"pattern\": \"\\\\d{2}[0-9A-Z]{2}[NEWS]\",\n                  \"type\": \"string\",\n                  \"description\": \"A global unique voyage reference for the import Voyage, as per DCSA standard, agreed by VSA partners for the voyage. The voyage reference must match the regular expression pattern: `\\\\d{2}[0-9A-Z]{2}[NEWS]`\\n- `2 digits` for the year\\n- `2 alphanumeric characters` for the sequence number of the voyage\\n- `1 character` for the direction/haul (`N`orth, `E`ast, `W`est or `S`outh).\\n\"\n                },\n                \"universalExportVoyageReference\": {\n                  \"pattern\": \"\\\\d{2}[0-9A-Z]{2}[NEWS]\",\n                  \"type\": \"string\",\n                  \"description\": \"A global unique voyage reference for the export Voyage, as per DCSA standard, agreed by VSA partners for the voyage. The voyage reference must match the regular expression pattern: `\\\\d{2}[0-9A-Z]{2}[NEWS]`\\n- `2 digits` for the year\\n- `2 alphanumeric characters` for the sequence number of the voyage\\n- `1 character` for the direction/haul (`N`orth, `E`ast, `W`est or `S`outh).\\n\"\n                },\n                \"location\": {\n                  \"type\": \"object\",\n                  \"description\": \"General purpose object to capture location-related data, the location can be specified in any of the following ways: `UN Location Code`, a `Facility` or an `Address`.\\n\",\n                  \"anyOf\": [\n                    {\n                      \"required\": [\n                        \"UNLocationCode\"\n                      ],\n                      \"type\": \"object\",\n                      \"description\": \"An interface used to express a location using a `Un Location Code`\\n\",\n                      \"properties\": {\n                        \"locationName\": {\n                          \"maxLength\": 100,\n                          \"type\": \"string\",\n                          \"description\": \"The name of the location.\"\n                        },\n                        \"UNLocationCode\": {\n                          \"maxLength\": 5,\n                          \"type\": \"string\",\n                          \"description\": \"The UN Location code specifying where the place is located.\"\n                        }\n                      }\n                    },\n                    {\n                      \"required\": [\n                        \"UNLocationCode\",\n                        \"facilitySMDGCode\"\n                      ],\n                      \"type\": \"object\",\n                      \"description\": \"An interface used to express a location using a `Facility` by the `SMDG` code list. The `facilitySMDGCode` does not contain the `UNLocationCode` - this should be provided in the `UnLocationCode` attribute.\\n\",\n                      \"properties\": {\n                        \"locationName\": {\n                          \"maxLength\": 100,\n                          \"type\": \"string\",\n                          \"description\": \"The name of the location.\"\n                        },\n                        \"UNLocationCode\": {\n                          \"maxLength\": 5,\n                          \"type\": \"string\",\n                          \"description\": \"The UN Location code specifying where the place is located.\"\n                        },\n                        \"facilitySMDGCode\": {\n                          \"maxLength\": 6,\n                          \"type\": \"string\",\n                          \"description\": \"The code used for identifying the specific facility. This code does <b>not</b> include the UN Location Code.\\n\"\n                        }\n                      }\n                    },\n                    {\n                      \"required\": [\n                        \"address\"\n                      ],\n                      \"type\": \"object\",\n                      \"description\": \"An interface used to express a location using an `Address` object\\n\",\n                      \"properties\": {\n                        \"locationName\": {\n                          \"maxLength\": 100,\n                          \"type\": \"string\",\n                          \"description\": \"The name of the location.\"\n                        },\n                        \"address\": {\n                          \"description\": \"Address related information\",\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"name\": {\n                              \"maxLength\": 100,\n                              \"type\": \"string\",\n                              \"description\": \"Name of the address\"\n                            },\n                            \"street\": {\n                              \"maxLength\": 100,\n                              \"type\": \"string\",\n                              \"description\": \"The name of the street of the party’s address.\"\n                            },\n                            \"streetNumber\": {\n                              \"maxLength\": 50,\n                              \"type\": \"string\",\n                              \"description\": \"The number of the street of the party’s address.\"\n                            },\n                            \"floor\": {\n                              \"maxLength\": 50,\n                              \"type\": \"string\",\n                              \"description\": \"The floor of the party’s street number.\"\n                            },\n                            \"postCode\": {\n                              \"maxLength\": 50,\n                              \"type\": \"string\",\n                              \"description\": \"The post code of the party’s address.\"\n                            },\n                            \"city\": {\n                              \"maxLength\": 65,\n                              \"type\": \"string\",\n                              \"description\": \"The city name of the party’s address.\"\n                            },\n                            \"stateRegion\": {\n                              \"maxLength\": 65,\n                              \"type\": \"string\",\n                              \"description\": \"The state/region of the party’s address.\"\n                            },\n                            \"country\": {\n                              \"maxLength\": 75,\n                              \"type\": \"string\",\n                              \"description\": \"The country of the party’s address.\"\n                            }\n                          }\n                        }\n                      }\n                    }\n                  ]\n                },\n                \"statusCode\": {\n                  \"type\": \"string\",\n                  \"description\": \"The set of codes in `Status Code` are ONLY meant to communicate any change / exception to the published schedule. This is not required in case of normal schedule. Possible values are:\\n\\n- OMIT (Omit)\\n- BLNK (Blank)\\n- ADHO (Ad Hoc)\\n- PHOT (Phase Out)\\n- PHIN (Phase In)\\n- SLID (Sliding)\\n- ROTC (Rotation Change)\\n\\nMore details can be found on [GitHub](https://github.com/dcsaorg/DCSA-Information-Model/blob/master/datamodel/referencedata.d/portcallstatuscode.csv)\\n\",\n                  \"enum\": [\n                    \"OMIN\",\n                    \"PHIN\",\n                    \"PHOT\",\n                    \"ADHO\",\n                    \"BLNK\",\n                    \"SLID\",\n                    \"ROTC\"\n                  ]\n                },\n                \"timestamps\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"required\": [\n                      \"eventClassifierCode\",\n                      \"eventDateTime\",\n                      \"eventTypeCode\"\n                    ],\n                    \"type\": \"object\",\n                    \"description\": \"A timestamp for a port\\n\",\n                    \"properties\": {\n                      \"eventTypeCode\": {\n                        \"type\": \"string\",\n                        \"description\": \"Identifier for type of Transport event\\n- ARRI (Arrived)\\n- DEPA (Departed)\\n\\nMore details can be found on <a href=\\\"https://github.com/dcsaorg/DCSA-Information-Model/blob/master/datamodel/referencedata.d/transporteventtypecodes.csv\\\">GitHub</a>\\n\",\n                        \"enum\": [\n                          \"ARRI\",\n                          \"DEPA\"\n                        ]\n                      },\n                      \"eventClassifierCode\": {\n                        \"type\": \"string\",\n                        \"description\": \"Code for the event classifier. Values can vary depending on eventType\\n\",\n                        \"enum\": [\n                          \"ACT\",\n                          \"EST\",\n                          \"PLN\"\n                        ]\n                      },\n                      \"eventDateTime\": {\n                        \"type\": \"string\",\n                        \"description\": \"Time in the timstamp\\n\",\n                        \"format\": \"date-time\"\n                      },\n                      \"delayReasonCode\": {\n                        \"maxLength\": 3,\n                        \"type\": \"string\",\n                        \"description\": \"Reason code for the delay. See SMDG [Code list DELAY](https://smdg.org/documents/smdg-code-lists/delay-reason-and-port-call-activity/) for a list of valid codes to be used for this attribute.\\n\"\n                      },\n                      \"changeRemark\": {\n                        \"maxLength\": 250,\n                        \"type\": \"string\",\n                        \"description\": \"Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage.\"\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n}",
+			"type": "string"
+		}
+	]
+}

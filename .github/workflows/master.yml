@@ -71,6 +71,8 @@ jobs:
     #    script: |
     #      core.setFailed('The DCSA-OVS service is down.')
 
-    - name: Run Integration Tests
-      run: |
-        cd DCSA-OVS && java -jar ovs-integration-tests/target/dcsa-ovs-integration-tests-with-dependencies.jar
+    - name: Run Postman Integration Tests
+      uses: anthonyvscode/newman-action@v1
+      with:
+        collection: DCSA-OVS/postman_collection.json
+        reporters: cli
