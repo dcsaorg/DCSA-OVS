@@ -1,5 +1,8 @@
 package org.dcsa.ovs.persistence.repository.specification;
 
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,18 +11,27 @@ import org.dcsa.skernel.domain.persistence.entity.Facility;
 import org.dcsa.skernel.domain.persistence.entity.Location;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServiceSpecification {
+
+  private static final DateTimeFormatter DATE_FORMAT =
+    new DateTimeFormatterBuilder()
+      .appendPattern("yyyy-MM-dd")
+      .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+      .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+      .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+      .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
+      .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
+      .toFormatter();
 
   @Builder
   public static class ServiceSchedulesFilters {
@@ -38,7 +50,13 @@ public class ServiceSpecification {
   public static Specification<Service> withFilters(final ServiceSchedulesFilters filters) {
 
     return (root, query, builder) -> {
-      Join<Service, Vessel> serviceVesselJoin = root.join(Service_.VESSELS, JoinType.LEFT);
+      boolean needSubquery = false;
+      var subquery = query.subquery(UUID.class);
+      var subqueryRoot = subquery.from(Service.class);
+
+      subquery.select(subqueryRoot.get(Service_.ID));
+
+      Join<Service, Vessel> serviceVesselJoin = subqueryRoot.join(Service_.VESSELS, JoinType.LEFT);
       Join<Vessel, TransportCall> vesselTransportCallJoin =
           serviceVesselJoin.join(Vessel_.TRANSPORT_CALLS, JoinType.LEFT);
       Join<TransportCall, Voyage> transportCallImportVoyageJoin =
@@ -49,6 +67,7 @@ public class ServiceSpecification {
           vesselTransportCallJoin.join(TransportCall_.LOCATION, JoinType.LEFT);
 
       List<Predicate> predicates = new ArrayList<>();
+      List<Predicate> subQueryPredicate = new ArrayList<>();
 
       if (null != filters.carrierServiceCode) {
         Predicate carrierServiceCodePredicate =
@@ -66,13 +85,13 @@ public class ServiceSpecification {
       if (null != filters.vesselIMONumber) {
         Predicate vesselIMONumberPredicate =
             builder.equal(serviceVesselJoin.get(Vessel_.VESSEL_IM_ONUMBER), filters.vesselIMONumber);
-        predicates.add(vesselIMONumberPredicate);
+        subQueryPredicate.add(vesselIMONumberPredicate);
       }
 
       if (null != filters.vesselName) {
         Predicate vesselNamePredicate =
             builder.equal(serviceVesselJoin.get(Vessel_.VESSEL_NAME), filters.vesselName);
-        predicates.add(vesselNamePredicate);
+        subQueryPredicate.add(vesselNamePredicate);
       }
 
       if (null != filters.voyageNumber) {
@@ -84,7 +103,7 @@ public class ServiceSpecification {
                 builder.equal(
                     transportCallExportVoyageJoin.get(Voyage_.CARRIER_VOYAGE_NUMBER),
                     filters.voyageNumber));
-        predicates.add(voyageNumberPredicate);
+        subQueryPredicate.add(voyageNumberPredicate);
       }
 
       if (null != filters.universalVoyageReference) {
@@ -96,14 +115,14 @@ public class ServiceSpecification {
                 builder.equal(
                     transportCallExportVoyageJoin.get(Voyage_.UNIVERSAL_VOYAGE_REFERENCE),
                     filters.universalVoyageReference));
-        predicates.add(universalVoyageReferencePredicate);
+        subQueryPredicate.add(universalVoyageReferencePredicate);
       }
 
       if (null != filters.unLocationCode) {
         Predicate unLocationPredicate =
             builder.equal(
                 transportCallLocationJoin.get("UNLocationCode"), filters.unLocationCode);
-        predicates.add(unLocationPredicate);
+        subQueryPredicate.add(unLocationPredicate);
       }
 
       if (null != filters.facilitySMDGCode) {
@@ -113,25 +132,14 @@ public class ServiceSpecification {
             builder.equal(
               locationFacilityJoin.get("facilitySMDGCode"),
                 filters.facilitySMDGCode);
-        predicates.add(facilitySMDGCodePredicate);
+        subQueryPredicate.add(facilitySMDGCodePredicate);
       }
 
       if (null != filters.startDate || null != filters.endDate) {
-
-        final DateTimeFormatter DATE_FORMAT =
-            new DateTimeFormatterBuilder()
-                .appendPattern("yyyy-MM-dd")
-                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
-                .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
-                .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
-                .toFormatter();
-
         Join<TransportCall, TransportEvent> transportCallTransportEventJoin =
             vesselTransportCallJoin.join("timestamps", JoinType.LEFT);
 
-        Predicate dateRangePredicate = null;
+        Predicate dateRangePredicate;
 
         if (null != filters.startDate && null != filters.endDate) {
           dateRangePredicate =
@@ -147,14 +155,21 @@ public class ServiceSpecification {
               builder.greaterThanOrEqualTo(
                   transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                   LocalDateTime.parse(filters.startDate, DATE_FORMAT).atOffset(ZoneOffset.UTC));
-        } else if (null != filters.endDate) {
+        } else {
+          assert null != filters.endDate;
           dateRangePredicate =
               builder.lessThanOrEqualTo(
                   transportCallTransportEventJoin.get(TransportEvent_.EVENT_DATE_TIME),
                   LocalDateTime.parse(filters.endDate, DATE_FORMAT).atOffset(ZoneOffset.UTC));
         }
 
-        predicates.add(dateRangePredicate);
+        subQueryPredicate.add(dateRangePredicate);
+      }
+
+      if (!subQueryPredicate.isEmpty()) {
+        Predicate predicate = builder.and(subQueryPredicate.toArray(Predicate[]::new));
+        subquery.where(predicate);
+        predicates.add(builder.in(root.get(Service_.ID)).value(subquery));
       }
 
       return builder.and(predicates.toArray(Predicate[]::new));

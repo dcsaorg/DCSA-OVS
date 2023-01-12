@@ -5,10 +5,9 @@ import org.dcsa.ovs.persistence.entity.enums.PortCallStatusCode;
 import org.dcsa.skernel.domain.persistence.entity.Facility;
 import org.dcsa.skernel.domain.persistence.entity.Location;
 
-import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import jakarta.persistence.*;
+
+import java.util.*;
 
 @Data
 @Builder
@@ -76,5 +75,5 @@ public class TransportCall {
   @EqualsAndHashCode.Exclude
   @OneToMany
   @JoinColumn(name="transport_call_id")
-  private Set<TransportEvent> timestamps = new LinkedHashSet<>();
+  private Collection<TransportEvent> timestamps = new ArrayList<>();
 }
