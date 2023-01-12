@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.dcsa.skernel.domain.persistence.entity.Carrier;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @NamedEntityGraph(
     name = "graph.vessels",
