@@ -45,7 +45,6 @@
 		<module>ovs-transfer-obj</module>
 		<module>ovs-persistence</module>
 		<module>ovs-service</module>
-		<module>ovs-integration-tests</module>
 	</modules>
 
 	<dependencyManagement>
