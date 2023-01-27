@@ -33,7 +33,7 @@ public class ServiceScheduleController {
   @GetMapping(path = "/service-schedules")
   @ResponseStatus(HttpStatus.OK)
   public List<ServiceScheduleTO> findAll(
-    @Size(max = 5) @RequestParam(required = false) String carrierServiceCode,
+    @Size(max = 11) @RequestParam(required = false) String carrierServiceCode,
     @Size(max = 8) @RequestParam(required = false) String universalServiceReference,
     @ValidVesselIMONumber(allowNull = true) @RequestParam(required = false) String vesselIMONumber,
     @Size(max = 35) @RequestParam(required = false) String vesselName,
