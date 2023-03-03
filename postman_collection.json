@@ -1,11 +1,35 @@
 {
 	"info": {
-		"_postman_id": "0e28a5e5-ddac-465b-8f92-44f3bb1970ea",
+		"_postman_id": "27321ca9-686d-4b8b-bd33-e6dff3ceb5ff",
 		"name": "DCSA-OVS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "16570202"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Load Test Data",
+			"item": [
+				{
+					"name": "Load Test Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{OVS_CONTEXT_PATH}}/unofficial/dataloader/load/test",
+							"host": [
+								"{{BASE_URL}}{{OVS_CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"dataloader",
+								"load",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "GET service schedules",
 			"item": [
@@ -549,6 +573,28 @@
 						}
 					]
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"API-Version header is set correctly\", () => {",
+							"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"OVS_SPEC_VERSION\"));",
+							"});"
+						]
+					}
+				}
 			]
 		}
 	],
@@ -570,10 +616,7 @@
 					"pm.test(\"API-Version is present\", () => {",
 					"    pm.response.to.have.header(\"API-Version\");",
 					"});",
-					"",
-					"pm.test(\"API-Version header is set correctly\", () => {",
-					"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"OVS_SPEC_VERSION\"));",
-					"});"
+					""
 				]
 			}
 		}
