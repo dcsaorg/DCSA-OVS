@@ -12,7 +12,7 @@ spring:
     name: DCSA-OVS
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${db_hostname}/dcsa_ovs
+    url: jdbc:postgresql://${db_hostname}/dcsaovs
     username: dcsa_db_owner
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
@@ -71,7 +71,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${db_hostname:localhost}/dcsa_ovs
+    url: jdbc:postgresql://${db_hostname:localhost}/dcsaovs
     username: dcsa_db_owner
     password: 9c072fe8-c59c-11ea-b8d1-7b6577e9f3f5
 
