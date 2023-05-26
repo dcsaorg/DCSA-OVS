@@ -634,7 +634,7 @@
 		},
 		{
 			"key": "OVS_CONTEXT_PATH",
-			"value": "/v3",
+			"value": "/ovs/v3",
 			"type": "string"
 		},
 		{
