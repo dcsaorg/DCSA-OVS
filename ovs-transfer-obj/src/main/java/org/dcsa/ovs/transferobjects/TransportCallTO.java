@@ -13,7 +13,7 @@ public record TransportCallTO(
   String universalImportVoyageReference,
   String universalExportVoyageReference,
   PortTerminalLocation location,
-  PortCallStatusCode statusCode,
+  String statusCode,
   List<TimestampTO> timestamps
 ) {
   @Builder(toBuilder = true) // workaround for intellij issue
