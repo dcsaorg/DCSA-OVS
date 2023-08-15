@@ -13,7 +13,8 @@ public record TransportCallTO(
   String universalImportVoyageReference,
   String universalExportVoyageReference,
   PortTerminalLocation location,
-  PortCallStatusCode statusCode,
+  //The possible values for the Port call status code can be found in https://github.com/dcsaorg/DCSA-Information-Model/blob/master/datamodel/referencedata.d/portcallstatuscodes.csv
+  String statusCode,
   List<TimestampTO> timestamps
 ) {
   @Builder(toBuilder = true) // workaround for intellij issue

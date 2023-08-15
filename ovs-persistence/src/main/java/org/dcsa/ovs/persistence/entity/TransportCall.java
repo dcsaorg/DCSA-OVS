@@ -65,9 +65,9 @@ public class TransportCall {
   @JoinColumn(name = "export_voyage_id")
   private Voyage exportVoyage;
 
-  @Enumerated(EnumType.STRING)
+
   @Column(name = "port_call_status_type_code", length = 4, columnDefinition = "bpchar")
-  private PortCallStatusCode portCallStatusCode;
+  private String portCallStatusCode;
 
   @Column(name="port_visit_reference", length=50)
   private String portVisitReference;
