@@ -23,7 +23,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PRIVATE)
+@Setter(AccessLevel.PUBLIC)
 @Entity
 @Table(name = "voyage")
 public class Voyage {

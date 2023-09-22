@@ -11,4 +11,7 @@ import org.mapstruct.Mapping;
 public interface ServiceScheduleMapper {
   @Mapping(target = "vesselSchedules", source = "vessels")
   ServiceScheduleTO toTO(Service service);
+
+  @Mapping(target = "vessels", source = "vesselSchedules")
+  Service toEntity(ServiceScheduleTO serviceScheduleTO);
 }

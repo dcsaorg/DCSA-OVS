@@ -3,13 +3,14 @@ dcsa:
   specification:
     version: 3.0.0
   dataloader:
-    autoload: [reference]
+    autoload: [test]
     sources: classpath:db/dataloader-sources.yml
     endpoint: /unofficial/dataloader/load
 
 spring:
   application:
     name: DCSA-OVS
+    context-path: /ovs/v3
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${db_hostname}/dcsaovs

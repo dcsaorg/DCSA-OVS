@@ -4,9 +4,11 @@ import org.dcsa.ovs.persistence.entity.TransportCall;
 import org.dcsa.ovs.transferobjects.*;
 import org.dcsa.skernel.domain.persistence.entity.Address;
 import org.dcsa.skernel.domain.persistence.entity.Facility;
-import org.dcsa.skernel.domain.persistence.entity.Location;
+import org.dcsa.ovs.persistence.entity.LocationEntity;
+import org.dcsa.skernel.domain.persistence.entity.UnLocation;
 import org.dcsa.skernel.infrastructure.services.mapping.AddressMapper;
 import org.dcsa.skernel.infrastructure.transferobject.AddressTO;
+import org.dcsa.skernel.infrastructure.transferobject.LocationTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -38,7 +40,7 @@ public abstract class TransportCallMapper {
     // default rule : if both facility and address are present on location we return
     // PortTerminalLocation: facilitySMDGLocation
     PortTerminalLocation portTerminalLocation = null;
-    Location location = transportCall.getLocation();
+    LocationEntity location = transportCall.getLocation();
 
     // since the spring context cannot be accessed here we access the mapper via code
     AddressMapper addressMapper = Mappers.getMapper(AddressMapper.class);
@@ -78,5 +80,31 @@ public abstract class TransportCallMapper {
     }
 
     return portTerminalLocation;
+  }
+
+  @Mappings(
+    value = {
+      @Mapping(target = "location", source = "location"),
+      @Mapping(target = "importVoyage.carrierVoyageNumber", source = "carrierImportVoyageNumber"),
+      @Mapping(target = "exportVoyage.carrierVoyageNumber", source = "carrierExportVoyageNumber"),
+      @Mapping(
+        target = "importVoyage.universalVoyageReference",
+        source = "universalImportVoyageReference"),
+      @Mapping(
+        target = "exportVoyage.universalVoyageReference",
+        source = "universalExportVoyageReference"),
+      @Mapping(target = "portCallStatusCode", source = "statusCode")
+    })
+  public abstract TransportCall toEntity(TransportCallTO transportCallTO);
+
+  LocationEntity mapLocation(PortTerminalLocation location) {
+    if (location instanceof  AddressLocationTO) {
+      AddressMapper addressMapper = Mappers.getMapper(AddressMapper.class);
+      return LocationEntity.builder().locationName(((AddressLocationTO) location).locationName()).address(addressMapper.toDAO(((AddressLocationTO) location).address())).build();
+    }
+    if(location instanceof FacilitySMDGLocationTO){
+      return LocationEntity.builder().locationName(((FacilitySMDGLocationTO) location).locationName()).facility(Facility.builder().UNLocationCode(((FacilitySMDGLocationTO) location).UNLocationCode()).facilitySMDGCode(((FacilitySMDGLocationTO) location).facilitySMDGCode()).build()).build();
+    }
+    return null;
   }
 }

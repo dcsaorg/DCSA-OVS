@@ -27,7 +27,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PRIVATE)
+@Setter(AccessLevel.PUBLIC)
 @Entity
 @Table(name = "service")
 public class Service {
@@ -50,7 +50,7 @@ public class Service {
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "tradelane_id")
   private Tradelane tradelane;
 
@@ -59,7 +59,7 @@ public class Service {
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinTable(
       name = "vessel_schedule",
       joinColumns = @JoinColumn(name = "service_id"),
