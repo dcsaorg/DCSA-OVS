@@ -13,9 +13,9 @@ import org.dcsa.skernel.domain.persistence.repository.CarrierRepository;
 import org.dcsa.skernel.errors.exceptions.ConcreteRequestErrorMessageException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -33,26 +33,40 @@ public class UnofficialServiceScheduleService {
     validatePortCallStatusCode(serviceScheduleTO.vesselSchedules());
     Set<Vessel> vessels = new LinkedHashSet<>();
     org.dcsa.ovs.persistence.entity.Service serviceEntity = serviceScheduleMapper.toEntity(serviceScheduleTO);
-    for (Vessel vessel : serviceEntity.getVessels()) {
-      Carrier carrier = carrierRepository.findBySmdgCode(vessel.getVesselOperatorCarrier().getSmdgCode());
-      vessel.setVesselOperatorCarrier(carrier);
-      vessels.add(vessel);
-      for (TransportCall transportCall : vessel.getTransportCalls()) {
-        transportCall.setVessel(vessel);
+    if (serviceEntity.getVessels() != null) {
+      for (Vessel vessel : serviceEntity.getVessels()) {
+        Carrier carrier =
+            carrierRepository.findBySmdgCode(vessel.getVesselOperatorCarrier().getSmdgCode());
+        vessel.setVesselOperatorCarrier(carrier);
+        vessels.add(vessel);
+        if (vessel.getTransportCalls() != null) {
+          for (TransportCall transportCall : vessel.getTransportCalls()) {
+            transportCall.setVessel(vessel);
+          }
+        }
       }
+      serviceEntity.setVessels(vessels);
     }
-    serviceEntity.setVessels(vessels);
+    Carrier carrier =
+      carrierRepository.findBySmdgCode(serviceScheduleTO.serviceOwnerCode());
+    serviceEntity.setCarrier(carrier);
     serviceRepository.save(serviceEntity);
   }
 
   private void validatePortCallStatusCode(List<VesselScheduleTO> vesselScheduleTOS) {
-    vesselScheduleTOS.stream()
-      .flatMap(v -> v.transportCalls().stream())
-      .filter(t -> t.statusCode() != null && !STATUS_CODE.contains(t.statusCode()))
-      .forEach(t -> {
-        throw ConcreteRequestErrorMessageException.invalidInput(
-          "The port call status code is invalid for transport reference : "
-            + t.transportCallReference());
-      });
+    if (null != vesselScheduleTOS) {
+      for (VesselScheduleTO vessel : vesselScheduleTOS) {
+        if (vessel.transportCalls() != null) {
+          for (TransportCallTO transportCall : vessel.transportCalls()) {
+            if (transportCall.statusCode() != null
+                && !STATUS_CODE.contains(transportCall.statusCode())) {
+              throw ConcreteRequestErrorMessageException.invalidInput(
+                  "The port call status code is invalid for transport reference : "
+                      + transportCall.transportCallReference());
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -15,6 +15,7 @@ class ServiceScheduleMapperTest {
         "carrier",
         "tradelane",
         "vessels",
-        "vesselSchedules");
+        "vesselSchedules",
+      "serviceOwnerCode");
   }
 }

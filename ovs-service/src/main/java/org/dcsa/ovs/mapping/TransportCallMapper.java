@@ -1,14 +1,12 @@
 package org.dcsa.ovs.mapping;
 
+import org.dcsa.ovs.persistence.entity.LocationEntity;
 import org.dcsa.ovs.persistence.entity.TransportCall;
 import org.dcsa.ovs.transferobjects.*;
 import org.dcsa.skernel.domain.persistence.entity.Address;
 import org.dcsa.skernel.domain.persistence.entity.Facility;
-import org.dcsa.ovs.persistence.entity.LocationEntity;
-import org.dcsa.skernel.domain.persistence.entity.UnLocation;
 import org.dcsa.skernel.infrastructure.services.mapping.AddressMapper;
 import org.dcsa.skernel.infrastructure.transferobject.AddressTO;
-import org.dcsa.skernel.infrastructure.transferobject.LocationTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -104,6 +102,10 @@ public abstract class TransportCallMapper {
     }
     if(location instanceof FacilitySMDGLocationTO){
       return LocationEntity.builder().locationName(((FacilitySMDGLocationTO) location).locationName()).facility(Facility.builder().UNLocationCode(((FacilitySMDGLocationTO) location).UNLocationCode()).facilitySMDGCode(((FacilitySMDGLocationTO) location).facilitySMDGCode()).build()).build();
+    }
+
+    if(location instanceof UNLocationLocationTO){
+      return LocationEntity.builder().locationName(((UNLocationLocationTO) location).locationName()).UNLocationCode(((UNLocationLocationTO) location).UNLocationCode()).build();
     }
     return null;
   }

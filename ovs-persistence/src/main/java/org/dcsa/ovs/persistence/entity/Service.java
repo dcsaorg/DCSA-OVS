@@ -27,7 +27,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PUBLIC)
 @Entity
 @Table(name = "service")
 public class Service {

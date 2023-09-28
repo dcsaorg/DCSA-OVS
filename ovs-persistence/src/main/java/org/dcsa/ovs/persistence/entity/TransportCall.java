@@ -1,9 +1,7 @@
 package org.dcsa.ovs.persistence.entity;
 
 import lombok.*;
-import org.dcsa.ovs.persistence.entity.enums.PortCallStatusCode;
 import org.dcsa.skernel.domain.persistence.entity.Facility;
-import org.dcsa.ovs.persistence.entity.LocationEntity;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -14,7 +12,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PUBLIC)
 @Entity
 @Table(name = "transport_call")
 public class TransportCall {
