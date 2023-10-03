@@ -60,7 +60,7 @@ public class UnofficialServiceScheduleService {
         if (vessel.transportCalls() != null) {
           for (TransportCallTO transportCall : vessel.transportCalls()) {
             if (transportCall.statusCode() != null
-                && !contains(transportCall.statusCode())) {
+                && !isValid(transportCall.statusCode())) {
               throw ConcreteRequestErrorMessageException.invalidInput(
                 "The port call status code is invalid for transport reference : "
                   + transportCall.transportCallReference());
@@ -71,7 +71,7 @@ public class UnofficialServiceScheduleService {
       }
     }
 
-  private static boolean contains(String statusCode) {
+  private static boolean isValid(String statusCode) {
     for (PortCallStatusCode type : PortCallStatusCode.values()) {
       if (type.name().equals(statusCode)) {
         return true;
