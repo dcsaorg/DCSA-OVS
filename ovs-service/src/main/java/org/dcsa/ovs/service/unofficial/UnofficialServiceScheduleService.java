@@ -8,6 +8,7 @@ import org.dcsa.ovs.persistence.repository.ServiceRepository;
 import org.dcsa.ovs.transferobjects.ServiceScheduleTO;
 import org.dcsa.ovs.transferobjects.TransportCallTO;
 import org.dcsa.ovs.transferobjects.VesselScheduleTO;
+import org.dcsa.ovs.transferobjects.enums.PortCallStatusCode;
 import org.dcsa.skernel.domain.persistence.entity.Carrier;
 import org.dcsa.skernel.domain.persistence.repository.CarrierRepository;
 import org.dcsa.skernel.errors.exceptions.ConcreteRequestErrorMessageException;
@@ -24,8 +25,8 @@ public class UnofficialServiceScheduleService {
   private final ServiceRepository serviceRepository;
   private final ServiceScheduleMapper serviceScheduleMapper;
   private final CarrierRepository carrierRepository;
-  private static List STATUS_CODE =
-      Arrays.asList("OMIT", "BLNK", "ADHO", "PHOT", "PHIN", "SLID", "ROTC");
+  //private static List STATUS_CODE =
+      //Arrays.asList("OMIT", "BLNK", "ADHO", "PHOT", "PHIN", "SLID", "ROTC");
 
   @Transactional
   public void saveServiceSchedules(ServiceScheduleTO serviceScheduleTO) {
@@ -59,14 +60,25 @@ public class UnofficialServiceScheduleService {
         if (vessel.transportCalls() != null) {
           for (TransportCallTO transportCall : vessel.transportCalls()) {
             if (transportCall.statusCode() != null
-                && !STATUS_CODE.contains(transportCall.statusCode())) {
+                && !contains(transportCall.statusCode())) {
               throw ConcreteRequestErrorMessageException.invalidInput(
-                  "The port call status code is invalid for transport reference : "
-                      + transportCall.transportCallReference());
+                "The port call status code is invalid for transport reference : "
+                  + transportCall.transportCallReference());
+            }
             }
           }
         }
       }
     }
+
+  private static boolean contains(String statusCode) {
+    for (PortCallStatusCode type : PortCallStatusCode.values()) {
+      if (type.name().equals(statusCode)) {
+        return true;
+      }
+    }
+    return false;
   }
+
 }
+

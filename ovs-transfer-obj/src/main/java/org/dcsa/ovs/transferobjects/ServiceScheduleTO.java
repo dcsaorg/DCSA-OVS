@@ -9,6 +9,7 @@ public record ServiceScheduleTO (
   String carrierServiceName,
   String carrierServiceCode,
   String universalServiceReference,
+  //The property 'serviceOwnerCode' is used only in the case of unofficial POST endpoint for vessel schedules (To add test data into database).
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   String serviceOwnerCode,
   List<VesselScheduleTO> vesselSchedules
