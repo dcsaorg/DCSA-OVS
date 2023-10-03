@@ -11,7 +11,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PRIVATE)
 @Entity
 @Table(name = "vessel")
 public class Vessel {
@@ -52,6 +51,6 @@ public class Vessel {
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @OneToMany(mappedBy = "vessel")
+  @OneToMany(mappedBy = "vessel",cascade = CascadeType.ALL)
   private Set<TransportCall> transportCalls = new LinkedHashSet<>();
 }

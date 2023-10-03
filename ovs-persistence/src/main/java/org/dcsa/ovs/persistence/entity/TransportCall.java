@@ -1,9 +1,7 @@
 package org.dcsa.ovs.persistence.entity;
 
 import lombok.*;
-import org.dcsa.ovs.persistence.entity.enums.PortCallStatusCode;
 import org.dcsa.skernel.domain.persistence.entity.Facility;
-import org.dcsa.skernel.domain.persistence.entity.Location;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -14,7 +12,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PRIVATE)
 @Entity
 @Table(name = "transport_call")
 public class TransportCall {
@@ -40,28 +37,28 @@ public class TransportCall {
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "location_id")
-  private Location location;
+  private LocationEntity location;
 
   @Column(name = "mode_of_transport_code", length = 3)
   private String modeOfTransportCode;
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "vessel_id")
   private Vessel vessel;
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "import_voyage_id")
   private Voyage importVoyage;
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "export_voyage_id")
   private Voyage exportVoyage;
 
@@ -74,7 +71,7 @@ public class TransportCall {
 
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name="transport_call_id")
   private Set<TransportEvent> timestamps = new LinkedHashSet<>();
 }

@@ -11,4 +11,7 @@ import org.mapstruct.Mapping;
 public interface VesselScheduleMapper {
   @Mapping(target = "vesselOperatorSMDGLinerCode", source = "vesselOperatorCarrier.smdgCode")
   VesselScheduleTO toTo(Vessel vessel);
+
+  @Mapping(target = "vesselOperatorCarrier.smdgCode", source = "vesselOperatorSMDGLinerCode")
+  Vessel toEntity(VesselScheduleTO vesselScheduleTO);
 }

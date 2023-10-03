@@ -14,4 +14,12 @@ public interface TransportEventMapper {
         @Mapping(target = "eventClassifierCode", source = "eventClassifierCode"),
       })
   TimestampTO toTO(TransportEvent transportEvent);
+
+  @Mappings(
+    value = {
+      @Mapping(target = "transportEventTypeCode", source = "eventTypeCode"),
+      @Mapping(target = "eventClassifierCode", source = "eventClassifierCode"),
+      @Mapping(target = "eventCreatedDateTime", source = "eventCreatedDateTime"),
+    })
+  TransportEvent toEntity(TimestampTO timestampTO);
 }
