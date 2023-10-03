@@ -25,8 +25,6 @@ public class UnofficialServiceScheduleService {
   private final ServiceRepository serviceRepository;
   private final ServiceScheduleMapper serviceScheduleMapper;
   private final CarrierRepository carrierRepository;
-  //private static List STATUS_CODE =
-      //Arrays.asList("OMIT", "BLNK", "ADHO", "PHOT", "PHIN", "SLID", "ROTC");
 
   @Transactional
   public void saveServiceSchedules(ServiceScheduleTO serviceScheduleTO) {
